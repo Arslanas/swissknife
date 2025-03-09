@@ -44,4 +44,7 @@ tasks {
     publishPlugin {
         token.set(System.getenv("PUBLISH_TOKEN"))
     }
+//    [System.Environment]::SetEnvironmentVariable("CERTIFICATE_CHAIN", (Get-Content "C:\Users\ovezb\.ssh\id_rsa.pub" -Raw), [System.EnvironmentVariableTarget]::User)
+//    [System.Environment]::SetEnvironmentVariable("PRIVATE_KEY", (Get-Content "C:\Users\ovezb\.ssh\id_rsa" -Raw), [System.EnvironmentVariableTarget]::User)
+//    [System.Environment]::SetEnvironmentVariable("PRIVATE_KEY_PASSWORD", "", [System.EnvironmentVariableTarget]::User)
 }
