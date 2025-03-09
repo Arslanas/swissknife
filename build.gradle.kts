@@ -50,4 +50,12 @@ tasks {
 //    [System.Environment]::SetEnvironmentVariable("CERTIFICATE_CHAIN", (Get-Content "C:\Users\ovezb\.ssh\id_rsa.pub" -Raw), [System.EnvironmentVariableTarget]::User)
 //    [System.Environment]::SetEnvironmentVariable("PRIVATE_KEY", (Get-Content "C:\Users\ovezb\.ssh\id_rsa" -Raw), [System.EnvironmentVariableTarget]::User)
 //    [System.Environment]::SetEnvironmentVariable("PRIVATE_KEY_PASSWORD", "", [System.EnvironmentVariableTarget]::User)
+
+    /*
+    Password = arslan
+    openssl genpkey -aes-256-cbc -algorithm RSA -out private_encrypted.pem -pkeyopt rsa_keygen_bits:4096
+    openssl rsa -in private_encrypted.pem -out private.pem
+    openssl req -key private.pem -new -x509 -days 3650 -out chain.crt
+
+     */
 }
