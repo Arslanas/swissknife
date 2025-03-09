@@ -1,7 +1,7 @@
 plugins {
     id("java")
-    id("org.jetbrains.kotlin.jvm") version "1.9.21"
-    id("org.jetbrains.intellij") version "1.16.1"
+    id("org.jetbrains.kotlin.jvm") version "1.9.25"
+    id("org.jetbrains.intellij") version "1.17.4"
 }
 
 group = "com.arslan"
@@ -14,7 +14,7 @@ repositories {
 // Configure Gradle IntelliJ Plugin
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
-    version.set("2023.1.5")
+    version.set("2024.1.7")
     type.set("IC") // Target IDE Platform
 
     plugins.set(listOf(/* Plugin Dependencies */))
@@ -32,7 +32,7 @@ tasks {
 
     patchPluginXml {
         sinceBuild.set("231")
-        untilBuild.set("241.*")
+        untilBuild.set("243.*")
     }
 
     signPlugin {
@@ -44,6 +44,9 @@ tasks {
     publishPlugin {
         token.set(System.getenv("PUBLISH_TOKEN"))
     }
+
+
+//  ssh-keygen -p -N "" -m pem -f  "C:\Users\ovezb\.ssh\id_rsa"
 //    [System.Environment]::SetEnvironmentVariable("CERTIFICATE_CHAIN", (Get-Content "C:\Users\ovezb\.ssh\id_rsa.pub" -Raw), [System.EnvironmentVariableTarget]::User)
 //    [System.Environment]::SetEnvironmentVariable("PRIVATE_KEY", (Get-Content "C:\Users\ovezb\.ssh\id_rsa" -Raw), [System.EnvironmentVariableTarget]::User)
 //    [System.Environment]::SetEnvironmentVariable("PRIVATE_KEY_PASSWORD", "", [System.EnvironmentVariableTarget]::User)
