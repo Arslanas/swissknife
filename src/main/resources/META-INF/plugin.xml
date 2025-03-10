@@ -8,7 +8,7 @@
     <name>Swissknife</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor email="ovezberdyevarslan@gmail.com" url="https://www.yourcompany.com">Personal use</vendor>
+    <vendor email="ovezberdyevarslan@gmail.com" url="https://www.arslan.com">Personal use</vendor>
 
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
@@ -20,35 +20,101 @@
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
+    <depends>Git4Idea</depends>
 
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
+        <applicationService serviceImplementation="com.arslan.swissknife.state.CapgSettings" />
+
+        <checkinHandlerFactory implementation="com.arslan.swissknife.git.GitCommitMessageHandlerFactory"/>
+
+        <localInspection
+                displayName="Liquibase changelog path validator"
+                language="XML" implementationClass="com.arslan.swissknife.inspections.LiquibaseChangelogInspection"
+                groupKey="XML"
+                groupName="XML inspection for CAPG"
+                enabledByDefault="true"
+
+        />
+
+        <lang.inspectionSuppressor language="XML" implementationClass="com.arslan.swissknife.inspections.LiquibaseInspectionSuppressor"/>
+
+
+        <psi.referenceContributor implementation="com.arslan.swissknife.psi.LiquibasePathReferenceContributor"
+                                  language="XML"/>
+
 
     </extensions>
 
     <actions>
-        <action
-                id="StackOverflow.AskQuestion.ToolsMenu"
-                class="com.arslan.swissknife.actions.AskQuestionAction"
-                text="Ask Question on Stack Overflow"
-                description="Ask a Question on Stack Overflow">
-            <add-to-group group-id="ToolsMenu" anchor="last"/>
-        </action>
-        <action
-                id="StackOverflow.Search.Editor"
-                class="com.arslan.swissknife.actions.SearchAction"
-                text="Search on Stack Overflow"
-                description="Search on Stack Overflow">
-            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
-        </action>
-        <action
-                id="StackOverflow.Search.Console"
-                class="com.arslan.swissknife.actions.SearchAction"
-                text="Search on Stack Overflow"
-                description="Search on Stack Overflow">
-            <add-to-group group-id="ConsoleEditorPopupMenu" anchor="last"/>
-        </action>
+        <!-- Grouping -->
+        <group id="com.arslan.CAPGTools"
+               text="CAPG"
+               description="Custom operations"
+               popup="true">
+
+            <action
+                    id="com.arslan.swissknife.actions.CreateFeatureBranch"
+                    class="com.arslan.swissknife.actions.CreateFeatureBranch"
+                    text="Create Jira branch"
+                    description="Create new branch with specific Jira number">
+            </action>
+
+            <action
+                    id="com.arslan.swissknife.actions.CreateReleaseBranch"
+                    class="com.arslan.swissknife.actions.CreateReleaseBranch"
+                    text="Create Release Jira branch"
+                    description="Create new release branch with specific Jira number">
+            </action>
+
+            <action
+                    id="com.arslan.swissknife.actions.UpdateMasterBranch"
+                    class="com.arslan.swissknife.actions.UpdateMasterBranch"
+                    text="Update master"
+                    description="Update master branch">
+            </action>
+
+            <action
+                    id="com.arslan.swissknife.actions.RebaseUponMasterBranch"
+                    class="com.arslan.swissknife.actions.RebaseUponMasterBranch"
+                    text="Rebase on master"
+                    description="Update master branch">
+            </action>
+
+            <separator/>
+
+            <action
+                    id="Swissknife.Jirafolder"
+                    class="com.arslan.swissknife.actions.Jirafolder"
+                    text="Jira folder"
+                    description="Open jira folder">
+            </action>
+            <separator/>
+
+            <action
+                    id="com.arslan.swissknife.actions.CreateModifyCodeAction"
+                    class="com.arslan.swissknife.actions.CreateModifyCodeAction"
+                    text="Create/Modify sql query"
+                    description="Create/Modify sql query">
+            </action>
+            <group
+                    id = "com.arslan.swissknife.actions.InsertCodeActionGroup"
+                    class= "com.arslan.swissknife.actions.InsertCodeActionGroup"
+                    text="Insert code"
+                    description="Insert code"
+                    popup="true"
+            />
+
+            <separator/>
+
+
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+        </group>
+
+
     </actions>
 
+
+    <resource-bundle/>
 </idea-plugin>

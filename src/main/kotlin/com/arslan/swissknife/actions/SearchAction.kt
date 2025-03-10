@@ -9,7 +9,6 @@ import java.util.*
 class SearchAction : AnAction() {
     private val log: Logger = Logger.getInstance(SearchAction::class.java)
     override fun actionPerformed(e: AnActionEvent) {
-        val file = e.getData(CommonDataKeys.PSI_FILE)
         val lang = e.getData(CommonDataKeys.PSI_FILE)!!.language
         val lowercase = lang.displayName.lowercase(Locale.getDefault())
         val languageTag = "+[$lowercase]"

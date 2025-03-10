@@ -1,0 +1,1 @@
+curl -L -o swissknifePlugin.zip "https://github.com/Arslanas/temp/raw/refs/heads/master/src/main/resources/swissknife-1.0-SNAPSHOT.zip"
