@@ -3,6 +3,8 @@ package com.arslan.swissknife.actions
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.ui.Messages
+import com.intellij.openapi.vfs.VfsUtilCore
+import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiElement
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.PsiSearchHelper
@@ -27,16 +29,14 @@ class SearchKeywordInFiles : AnAction() {
         val keyword = "main"
         val caseSensitivity = false
 
-        val map = HashMap<String, Int>()
-        val visited = HashSet<String>()
+        val visited = HashSet<VirtualFile>()
 
         psiSearchHelper.processElementsWithWord(
             { element: PsiElement, offset: Int ->
                 val file = element.containingFile?.virtualFile
                 if (file != null) {
-                    if (visited.contains(file.name)) return@processElementsWithWord true
-                    map.put(file.name, map.getOrDefault(file.name, 0) + 1)
-                    visited.add(file.name)
+                    if (visited.contains(file)) return@processElementsWithWord true
+                    visited.add(file)
                 }
                 true // Continue search
             },
@@ -46,8 +46,24 @@ class SearchKeywordInFiles : AnAction() {
             caseSensitivity
         )
 
+
+        val map = HashMap<String, Int>()
+
+        visited.forEach({ file ->
+            val content = VfsUtilCore.loadText(file) // Read file content
+            val count = countOccurrences(content, keyword)
+            if (count > 0) {
+                map[file.path] = count
+            }
+        })
+
+
+
         map.forEach {  key, value -> println("$key: $value") }
     }
 
 
+    private fun countOccurrences(text: String, keyword: String): Int {
+        return Regex(keyword, RegexOption.IGNORE_CASE).findAll(text).count() // Match whole words only
+    }
 }
