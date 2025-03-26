@@ -9,8 +9,6 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.PsiSearchHelper
 import com.intellij.psi.search.UsageSearchContext
-import java.util.*
-import kotlin.collections.HashMap
 
 class SearchKeywordInFiles : AnAction() {
 
