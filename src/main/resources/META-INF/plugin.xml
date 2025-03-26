@@ -71,14 +71,14 @@
             <action
                     id="com.arslan.swissknife.actions.UpdateMasterBranch"
                     class="com.arslan.swissknife.actions.UpdateMasterBranch"
-                    text="Update master"
+                    text="Update Master Branch"
                     description="Update master branch">
             </action>
 
             <action
                     id="com.arslan.swissknife.actions.RebaseUponMasterBranch"
                     class="com.arslan.swissknife.actions.RebaseUponMasterBranch"
-                    text="Rebase on master"
+                    text="Rebase on Master"
                     description="Update master branch">
             </action>
 
@@ -87,7 +87,7 @@
             <action
                     id="Swissknife.Jirafolder"
                     class="com.arslan.swissknife.actions.Jirafolder"
-                    text="Jira folder"
+                    text="Jira Folder"
                     description="Open jira folder">
             </action>
             <separator/>
@@ -95,19 +95,27 @@
             <action
                     id="com.arslan.swissknife.actions.CreateModifyCodeAction"
                     class="com.arslan.swissknife.actions.CreateModifyCodeAction"
-                    text="Create/Modify sql query"
+                    text="Create/Modify Sql Query"
                     description="Create/Modify sql query">
             </action>
             <group
                     id = "com.arslan.swissknife.actions.InsertCodeActionGroup"
                     class= "com.arslan.swissknife.actions.InsertCodeActionGroup"
-                    text="Insert code"
+                    text="Insert Code"
                     description="Insert code"
                     popup="true"
             />
 
             <separator/>
+            <action
+                    id="com.arslan.swissknife.actions.SearchKeywordInFiles"
+                    class="com.arslan.swissknife.actions.SearchKeywordInFiles"
+                    text="Search Keyword in Files"
+                    description="Search keyword in files">
+            </action>
+            SearchKeywordInFiles
 
+            <separator/>
 
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </group>
