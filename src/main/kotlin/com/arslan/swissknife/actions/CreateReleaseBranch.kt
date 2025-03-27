@@ -9,6 +9,8 @@ import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.progress.Task
 import com.intellij.openapi.ui.Messages
 import git4idea.commands.Git
+import git4idea.commands.GitCommand
+import git4idea.commands.GitLineHandler
 import git4idea.repo.GitRepositoryManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -95,9 +97,9 @@ class CreateReleaseBranch : AnAction() {
                         val confirmed = response == Messages.YES
 
                         if (confirmed) {
-                            val checkoutResult = withContext(Dispatchers.IO) {
+                            val checkoutResult = withContext(Dispatchers.IO)  {
                                 indicator.text = "Checkout branch $resultBranch"
-                                val result = git.checkout(
+                                val checkoutResult = git.checkout(
                                     repository,
                                     "origin/$selectedReleaseBranch",
                                     resultBranch,
@@ -105,13 +107,21 @@ class CreateReleaseBranch : AnAction() {
                                     false,
                                     SwissknifeUtil.consolePrinter
                                 )
+
+                                val unsetUpstream = GitLineHandler(project, repository.root, GitCommand.BRANCH)
+                                unsetUpstream.addParameters("--unset-upstream")
+                                unsetUpstream.addLineListener(SwissknifeUtil.consolePrinter)
+                                val unsetUpstreamResult = git.runCommand(unsetUpstream)
+
                                 repository.update()
-                                result
+
+                                listOf(checkoutResult, unsetUpstreamResult)
                             }
 
-                            if (!checkoutResult.success()) {
+                            val error = checkoutResult.firstOrNull{ !it.success() }
+                            if (error != null){
                                 Messages.showErrorDialog(
-                                    project, "Checkout failed from $selectedReleaseBranch to $resultBranch :\n${checkoutResult.errorOutputAsJoinedString}",
+                                    project, "Checkout failed from $selectedReleaseBranch to $resultBranch :\n${error.errorOutputAsJoinedString}",
                                     "Checkout Failed"
                                 )
                             }
