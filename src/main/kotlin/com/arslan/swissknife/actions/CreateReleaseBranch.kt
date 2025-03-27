@@ -13,6 +13,7 @@ import git4idea.repo.GitRepositoryManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class CreateReleaseBranch : AnAction() {
 
@@ -94,9 +95,9 @@ class CreateReleaseBranch : AnAction() {
                         val confirmed = response == Messages.YES
 
                         if (confirmed) {
-                            CoroutineScope(Dispatchers.IO).launch {
+                            val checkoutResult = withContext(Dispatchers.IO) {
                                 indicator.text = "Checkout branch $resultBranch"
-                                git.checkout(
+                                val result = git.checkout(
                                     repository,
                                     "origin/$selectedReleaseBranch",
                                     resultBranch,
@@ -105,6 +106,14 @@ class CreateReleaseBranch : AnAction() {
                                     SwissknifeUtil.consolePrinter
                                 )
                                 repository.update()
+                                result
+                            }
+
+                            if (!checkoutResult.success()) {
+                                Messages.showErrorDialog(
+                                    project, "Checkout failed from $selectedReleaseBranch to $resultBranch :\n${checkoutResult.errorOutputAsJoinedString}",
+                                    "Checkout Failed"
+                                )
                             }
                         }
                     }
