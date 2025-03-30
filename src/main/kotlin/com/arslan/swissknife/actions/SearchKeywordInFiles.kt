@@ -16,8 +16,7 @@ import com.intellij.find.impl.FindInProjectUtil
 import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.usageView.UsageInfo
-import com.intellij.usages.FindUsagesProcessPresentation
-import com.intellij.usages.UsageViewPresentation
+import com.intellij.usages.*
 import com.intellij.util.Processor
 
 class SearchKeywordInFiles : AnAction() {
@@ -29,29 +28,45 @@ class SearchKeywordInFiles : AnAction() {
             return
         }
 
+        val keyword = "main"
+
         val findModel = FindModel().apply {
-            stringToFind = "yourKeyword"
+            stringToFind = keyword
             isCaseSensitive = true
             isWholeWordsOnly = false
         }
 
-        val keyword = "main"
-        val usageViewPresentation = UsageViewPresentation().apply {
-            searchString = keyword
-            isOpenInNewTab = true
-            tabText = "Search results for \"$keyword\""
-        }
+        val usageViewPresentation = FindInProjectUtil.setupViewPresentation(true, findModel)
+        usageViewPresentation.tabText = "Find usages for \"$keyword\""
+
+//        val usageViewPresentation = UsageViewPresentation().apply {
+//            searchString = keyword
+//            isOpenInNewTab = true
+//            tabText = "Search results for \"$keyword\""
+//        }
 
         val processPresentation = FindUsagesProcessPresentation(usageViewPresentation).apply {
             isShowPanelIfOnlyOneUsage = false
         }
 
+        val usageList = mutableListOf<Usage>()
+
         val processor = Processor<UsageInfo> { usageInfo ->
-            println("Found usage at: ${usageInfo.virtualFile?.path}:${usageInfo.navigationRange?.startOffset}")
-            true // Return true to continue processing
+            usageList.add(UsageInfo2UsageAdapter(usageInfo))
+            true
         }
 
         FindInProjectUtil.findUsages(findModel, project, processor, processPresentation)
+
+        if (usageList.isNotEmpty()) {
+            val usageViewManager = UsageViewManager.getInstance(project)
+            val usageTargets: Array<UsageTarget> = UsageTarget.EMPTY_ARRAY
+
+            // Display the collected usages in the tool window
+            usageViewManager.showUsages(usageTargets, usageList.toTypedArray(), usageViewPresentation)
+        } else {
+            println("No usages found for '$keyword'")
+        }
     }
 
 
