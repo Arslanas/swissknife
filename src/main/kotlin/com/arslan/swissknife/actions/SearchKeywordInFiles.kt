@@ -32,8 +32,10 @@ class SearchKeywordInFiles : AnAction() {
 
         val findModel = FindModel().apply {
             stringToFind = keyword
-            isCaseSensitive = true
+            isCaseSensitive = false
             isWholeWordsOnly = false
+            isFindAll = true
+            isFindAllEnabled = true
         }
 
         val usageViewPresentation = FindInProjectUtil.setupViewPresentation(true, findModel)
@@ -46,6 +48,7 @@ class SearchKeywordInFiles : AnAction() {
         val usageList = mutableListOf<Usage>()
 
         val processor = Processor<UsageInfo> { usageInfo ->
+            println(usageInfo)
             usageList.add(UsageInfo2UsageAdapter(usageInfo))
             true
         }
