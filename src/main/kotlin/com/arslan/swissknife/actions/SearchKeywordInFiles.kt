@@ -1,7 +1,10 @@
 package com.arslan.swissknife.actions
 
+import com.intellij.find.FindModel
+import com.intellij.find.FindSettings
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.vfs.VfsUtilCore
 import com.intellij.openapi.vfs.VirtualFile
@@ -9,6 +12,13 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.PsiSearchHelper
 import com.intellij.psi.search.UsageSearchContext
+import com.intellij.find.impl.FindInProjectUtil
+import com.intellij.openapi.progress.ProgressIndicator
+import com.intellij.openapi.progress.ProgressManager
+import com.intellij.usageView.UsageInfo
+import com.intellij.usages.FindUsagesProcessPresentation
+import com.intellij.usages.UsageViewPresentation
+import com.intellij.util.Processor
 
 class SearchKeywordInFiles : AnAction() {
 
@@ -19,44 +29,29 @@ class SearchKeywordInFiles : AnAction() {
             return
         }
 
-
-        val psiSearchHelper = PsiSearchHelper.getInstance(project)
-        val scope = GlobalSearchScope.projectScope(project)
+        val findModel = FindModel().apply {
+            stringToFind = "yourKeyword"
+            isCaseSensitive = true
+            isWholeWordsOnly = false
+        }
 
         val keyword = "main"
-        val caseSensitivity = false
+        val usageViewPresentation = UsageViewPresentation().apply {
+            searchString = keyword
+            isOpenInNewTab = true
+            tabText = "Search results for \"$keyword\""
+        }
 
-        val visited = HashSet<VirtualFile>()
+        val processPresentation = FindUsagesProcessPresentation(usageViewPresentation).apply {
+            isShowPanelIfOnlyOneUsage = false
+        }
 
-        psiSearchHelper.processElementsWithWord(
-            { element: PsiElement, offset: Int ->
-                val file = element.containingFile?.virtualFile
-                if (file != null) {
-                    if (visited.contains(file)) return@processElementsWithWord true
-                    visited.add(file)
-                }
-                true // Continue search
-            },
-            scope,
-            keyword,
-            UsageSearchContext.ANY,
-            caseSensitivity
-        )
+        val processor = Processor<UsageInfo> { usageInfo ->
+            println("Found usage at: ${usageInfo.virtualFile?.path}:${usageInfo.navigationRange?.startOffset}")
+            true // Return true to continue processing
+        }
 
-
-        val map = HashMap<String, Int>()
-
-        visited.forEach({ file ->
-            val content = VfsUtilCore.loadText(file) // Read file content
-            val count = countOccurrences(content, keyword)
-            if (count > 0) {
-                map[file.path] = count
-            }
-        })
-
-
-
-        map.forEach {  key, value -> println("$key: $value") }
+        FindInProjectUtil.findUsages(findModel, project, processor, processPresentation)
     }
 
 
