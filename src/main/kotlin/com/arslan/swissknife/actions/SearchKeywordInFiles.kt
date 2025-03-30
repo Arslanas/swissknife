@@ -39,12 +39,6 @@ class SearchKeywordInFiles : AnAction() {
         val usageViewPresentation = FindInProjectUtil.setupViewPresentation(true, findModel)
         usageViewPresentation.tabText = "Find usages for \"$keyword\""
 
-//        val usageViewPresentation = UsageViewPresentation().apply {
-//            searchString = keyword
-//            isOpenInNewTab = true
-//            tabText = "Search results for \"$keyword\""
-//        }
-
         val processPresentation = FindUsagesProcessPresentation(usageViewPresentation).apply {
             isShowPanelIfOnlyOneUsage = false
         }
