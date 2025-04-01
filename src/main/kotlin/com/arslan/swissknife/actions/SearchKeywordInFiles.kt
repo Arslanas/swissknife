@@ -2,25 +2,16 @@ package com.arslan.swissknife.actions
 
 import com.arslan.swissknife.ui.CustomFileUsage
 import com.intellij.find.FindModel
-import com.intellij.find.FindSettings
+import com.intellij.find.impl.FindInProjectUtil
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
-import com.intellij.openapi.vfs.VfsUtilCore
 import com.intellij.openapi.vfs.VirtualFile
-import com.intellij.psi.PsiElement
-import com.intellij.psi.search.GlobalSearchScope
-import com.intellij.psi.search.PsiSearchHelper
-import com.intellij.psi.search.UsageSearchContext
-import com.intellij.find.impl.FindInProjectUtil
-import com.intellij.openapi.editor.markup.TextAttributes
-import com.intellij.openapi.fileEditor.FileEditorLocation
-import com.intellij.openapi.progress.ProgressIndicator
-import com.intellij.openapi.progress.ProgressManager
-import com.intellij.openapi.vfs.findPsiFile
 import com.intellij.usageView.UsageInfo
-import com.intellij.usages.*
+import com.intellij.usages.FindUsagesProcessPresentation
+import com.intellij.usages.UsageTarget
+import com.intellij.usages.UsageViewManager
+import com.intellij.usages.UsageViewPresentation
 import com.intellij.util.Processor
 
 class SearchKeywordInFiles : AnAction() {
@@ -36,7 +27,7 @@ class SearchKeywordInFiles : AnAction() {
 
         val usageViewPresentation = UsageViewPresentation().apply {
             searchString = keyword
-            tabText = "Files containing \"$keyword\""
+            tabText = "Files Containing \"$keyword\""
             isOpenInNewTab = true
             isShowCancelButton = true
         }
