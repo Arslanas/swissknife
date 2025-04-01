@@ -36,6 +36,10 @@ class CustomFileUsage(private val file: VirtualFile, private val project : Proje
         return true
     }
 
+    override fun canNavigateToSource():Boolean {
+        return true
+    }
+
     override fun navigate(requestFocus: Boolean) {
         println("Navigating to $file")
         FileEditorManager.getInstance(project).openFile(file, requestFocus, true)
