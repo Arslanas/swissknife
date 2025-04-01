@@ -57,7 +57,7 @@ class SearchKeywordInFiles : AnAction() {
         FindInProjectUtil.findUsages(findModel, project, processor, processPresentation)
 
 
-        val usageList = uniqueFiles.map { CustomFileUsage(it)}
+        val usageList = uniqueFiles.map { CustomFileUsage(it, project) }
 
         if (usageList.isNotEmpty()) {
             val usageViewManager = UsageViewManager.getInstance(project)
