@@ -82,6 +82,13 @@
                     description="Update master branch">
             </action>
 
+            <action
+                    id="com.arslan.swissknife.actions.CreateMrAction"
+                    class="com.arslan.swissknife.actions.CreateMrAction"
+                    text="Create MR"
+                    description="Create MR">
+            </action>
+
             <separator/>
 
             <action
@@ -113,7 +120,6 @@
                     text="Search Keyword in Files"
                     description="Search keyword in files">
             </action>
-            SearchKeywordInFiles
 
             <separator/>
 

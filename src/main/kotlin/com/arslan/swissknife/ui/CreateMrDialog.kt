@@ -4,25 +4,21 @@ import com.intellij.icons.AllIcons
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.ui.dsl.builder.Align
+import com.intellij.ui.dsl.builder.bindText
 import com.intellij.ui.dsl.builder.panel
 import javax.swing.*
 
 
 class CreateMrDialog(project: Project?) : DialogWrapper(project) {
 
-    private val inputField = JTextField("")
-    private val regexp = JCheckBox(AllIcons.Actions.Regex,  false)
-
-    private val caseSensitive = JCheckBox(AllIcons.Actions.MatchCase,  false)
+    var title = ""
+    private val options = listOf("Option 1", "Option 2", "Option 3")
 
     init {
-        title = "Search param dialog"
+        title = "Create Mr Dialog"
         init()
     }
 
-    override fun getPreferredFocusedComponent(): JComponent? {
-        return inputField
-    }
 
     override fun getDimensionServiceKey(): String? {
         return "CustomInputDialog"
@@ -30,21 +26,14 @@ class CreateMrDialog(project: Project?) : DialogWrapper(project) {
 
     override fun createCenterPanel(): JComponent {
         return panel() {
-            row(JLabel("", AllIcons.Actions.Search, SwingConstants.LEFT)) {
-                cell(inputField)
+            row("Title"){
+                textField()
                     .resizableColumn()
                     .align(Align.FILL)
-            }
-            row(JLabel("")) {
-                cell(JLabel("", AllIcons.Actions.Regex, SwingConstants.LEFT))
-                cell(regexp)
-                cell(JLabel("", AllIcons.Actions.MatchCase, SwingConstants.LEFT))
-                cell(caseSensitive)
+                    .focused()
+                    .bindText({ title}, {title = it})
             }
         }
     }
 
-    fun getInputText(): String = inputField.text
-    fun isRegexp(): Boolean = regexp.isSelected
-    fun isCaseSensitive(): Boolean = caseSensitive.isSelected
 }
