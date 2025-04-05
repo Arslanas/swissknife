@@ -1,10 +1,10 @@
 package com.arslan.swissknife.ui
 
+import com.intellij.icons.AllIcons
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.ui.dsl.builder.Align
 import com.intellij.ui.dsl.builder.panel
-import com.intellij.icons.AllIcons
 import javax.swing.*
 
 
@@ -21,13 +21,13 @@ class CustomInputDialog(project: Project?) : DialogWrapper(project) {
     }
 
     override fun createCenterPanel(): JComponent {
-        return panel {
+        return panel() {
             row(JLabel("", AllIcons.Actions.Search, SwingConstants.LEFT)) {
                 cell(inputField)
                     .resizableColumn()
                     .align(Align.FILL)
             }
-            row() {
+            row(JLabel("")) {
                 cell(JLabel("", AllIcons.Actions.Regex, SwingConstants.LEFT))
                 cell(regexp)
                 cell(JLabel("", AllIcons.Actions.MatchCase, SwingConstants.LEFT))
