@@ -41,7 +41,6 @@ class SearchKeywordInFiles : AnAction() {
 
         val usageViewPresentation = UsageViewPresentation().apply {
             searchString = keyword
-            tabText = "Files Containing \"$keyword\""
             isOpenInNewTab = true
             isShowCancelButton = true
         }
@@ -76,6 +75,7 @@ class SearchKeywordInFiles : AnAction() {
         if (usageList.isNotEmpty()) {
             val usageViewManager = UsageViewManager.getInstance(project)
             val usageTargets: Array<UsageTarget> = UsageTarget.EMPTY_ARRAY
+            usageViewPresentation.tabText = "Found ${usageList.size} files containing \"$keyword\""
             usageViewManager.showUsages(usageTargets, usageList.toTypedArray(), usageViewPresentation)
         } else {
             println("No usages found for '$keyword'")
