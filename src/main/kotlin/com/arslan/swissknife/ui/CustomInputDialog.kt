@@ -11,16 +11,9 @@ import javax.swing.*
 class CustomInputDialog(project: Project?) : DialogWrapper(project) {
 
     private val inputField = JTextField("")
-    private val regexp = JCheckBox(AllIcons.Actions.Regex, false).apply {
-        toolTipText = "Regexp"
-        icon
-    }
-    private val caseSensitive = JCheckBox(AllIcons.Actions.MatchCase, false).apply {
-        toolTipText = "Case sensitive"
-    }
-    val iconMatchCase = JLabel(AllIcons.Actions.MatchCase)
-    val iconRegex = JLabel(AllIcons.Actions.Regex)
-    val iconSearch = JLabel("", AllIcons.Actions.Search, SwingConstants.LEFT)
+    private val regexp = JCheckBox(AllIcons.Actions.Regex,  false)
+
+    private val caseSensitive = JCheckBox(AllIcons.Actions.MatchCase,  false)
 
     init {
         title = "Search param dialog"
@@ -29,15 +22,15 @@ class CustomInputDialog(project: Project?) : DialogWrapper(project) {
 
     override fun createCenterPanel(): JComponent {
         return panel {
-            row(iconSearch) {
+            row(JLabel("", AllIcons.Actions.Search, SwingConstants.LEFT)) {
                 cell(inputField)
                     .resizableColumn()
                     .align(Align.FILL)
             }
             row() {
-                cell(iconRegex)
+                cell(JLabel("", AllIcons.Actions.Regex, SwingConstants.LEFT))
                 cell(regexp)
-                cell(iconMatchCase)
+                cell(JLabel("", AllIcons.Actions.MatchCase, SwingConstants.LEFT))
                 cell(caseSensitive)
             }
         }
