@@ -4,21 +4,23 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.ui.dsl.builder.Align
 import com.intellij.ui.dsl.builder.panel
-import javax.swing.JComponent
-import javax.swing.JTextField
-import javax.swing.JCheckBox
 import com.intellij.icons.AllIcons
+import javax.swing.*
 
 
 class CustomInputDialog(project: Project?) : DialogWrapper(project) {
 
-    private val inputField = JTextField()
-    private val regexp = JCheckBox("Regexp").apply {
-        icon = AllIcons.Actions.Regex
+    private val inputField = JTextField("")
+    private val regexp = JCheckBox(AllIcons.Actions.Regex, false).apply {
+        toolTipText = "Regexp"
+        icon
     }
-    private val caseSensitive = JCheckBox("Case sensitive").apply {
-        icon = AllIcons.Actions.MatchCase
+    private val caseSensitive = JCheckBox(AllIcons.Actions.MatchCase, false).apply {
+        toolTipText = "Case sensitive"
     }
+    val iconMatchCase = JLabel(AllIcons.Actions.MatchCase)
+    val iconRegex = JLabel(AllIcons.Actions.Regex)
+    val iconSearch = JLabel("", AllIcons.Actions.Search, SwingConstants.LEFT)
 
     init {
         title = "Search param dialog"
@@ -27,15 +29,15 @@ class CustomInputDialog(project: Project?) : DialogWrapper(project) {
 
     override fun createCenterPanel(): JComponent {
         return panel {
-            row("Keyword:") {
+            row(iconSearch) {
                 cell(inputField)
                     .resizableColumn()
                     .align(Align.FILL)
             }
-            row {
+            row() {
+                cell(iconRegex)
                 cell(regexp)
-            }
-            row {
+                cell(iconMatchCase)
                 cell(caseSensitive)
             }
         }
