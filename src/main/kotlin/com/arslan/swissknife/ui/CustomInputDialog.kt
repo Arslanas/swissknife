@@ -20,6 +20,14 @@ class CustomInputDialog(project: Project?) : DialogWrapper(project) {
         init()
     }
 
+    override fun getPreferredFocusedComponent(): JComponent? {
+        return inputField
+    }
+
+    override fun getDimensionServiceKey(): String? {
+        return "CustomInputDialog"
+    }
+
     override fun createCenterPanel(): JComponent {
         return panel() {
             row(JLabel("", AllIcons.Actions.Search, SwingConstants.LEFT)) {
