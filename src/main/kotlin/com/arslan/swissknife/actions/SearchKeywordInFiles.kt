@@ -31,7 +31,6 @@ class SearchKeywordInFiles : AnAction() {
 
         val keyword = dialog.getInputText().trim()
         if (keyword.isEmpty()) {
-            Messages.showErrorDialog(project, "Keyword cannot be empty", "Invalid Input")
             return
         }
 
