@@ -27,32 +27,15 @@ class CreateReleaseBranch : AnAction() {
 
         val repository = GitRepositoryManager.getInstance(project).repositories.stream().findFirst().orElse(null)
         val git = Git.getInstance()
-        val remote = repository.remotes.stream()
-            .findFirst()
-            .orElseThrow { Exception("Remote not found") }
 
         ProgressManager.getInstance().run(
             object : Task.Backgroundable(
                 project, "Creating Branch from release branch", false
             ) {
                 override fun run(indicator: ProgressIndicator) {
-                    indicator.text = "Fetch repository"
-                    git.fetch(repository, remote, listOf(SwissknifeUtil.consolePrinter))
-
-                    indicator.text = "Get remote branches"
-                    val lsRemoteResult = git.lsRemote(repository.project, repository.root, remote)
-                    if (!lsRemoteResult.success()) {
-                        Messages.showErrorDialog(
-                            project,
-                            "Failed to list remote branches : ${lsRemoteResult.errorOutputAsJoinedString}",
-                            "Error"
-                        );
-                        return
-                    }
-
-                    val output = lsRemoteResult.output
+                    val output = repository.branches.remoteBranches
+                        .map { it.nameForRemoteOperations }
                         .filter { it.contains("release") }
-                        .map { it.substringAfter("refs/heads/") }
                         .sortedDescending()
 
                     if (output.isEmpty()) return
