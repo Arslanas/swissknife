@@ -1,6 +1,7 @@
 package com.arslan.swissknife.actions
 
 import com.arslan.swissknife.ui.CustomFileUsage
+import com.arslan.swissknife.ui.CustomInputDialog
 import com.intellij.find.FindModel
 import com.intellij.find.impl.FindInProjectUtil
 import com.intellij.openapi.actionSystem.AnAction
@@ -23,7 +24,16 @@ class SearchKeywordInFiles : AnAction() {
             return
         }
 
-        val keyword = Messages.showInputDialog(project, "Specify keyword", "Keyword", null) ?: return
+        val dialog = CustomInputDialog(project)
+        if (!dialog.showAndGet()) {
+            return // User canceled
+        }
+
+        val keyword = dialog.getInputText().trim()
+        if (keyword.isEmpty()) {
+            Messages.showErrorDialog(project, "Keyword cannot be empty", "Invalid Input")
+            return
+        }
 
         if (keyword.isEmpty()) {
             return
@@ -37,7 +47,8 @@ class SearchKeywordInFiles : AnAction() {
         }
         val findModel = FindModel().apply {
             stringToFind = keyword
-            isCaseSensitive = false
+            isCaseSensitive = dialog.isCaseSensitive()
+            isRegularExpressions = dialog.isRegexp()
             isWholeWordsOnly = false
             isFindAll = true
             isFindAllEnabled = true
@@ -53,7 +64,6 @@ class SearchKeywordInFiles : AnAction() {
         val uniqueFiles = mutableSetOf<VirtualFile>()
 
         val processor = Processor<UsageInfo> { usageInfo ->
-            println(usageInfo)
             usageInfo.virtualFile?.let { uniqueFiles.add(it) }
             true
         }
