@@ -23,7 +23,11 @@ class SearchKeywordInFiles : AnAction() {
             return
         }
 
-        val keyword = "main"
+        val keyword = Messages.showInputDialog(project, "Specify keyword", "Keyword", null) ?: return
+
+        if (keyword.isEmpty()) {
+            return
+        }
 
         val usageViewPresentation = UsageViewPresentation().apply {
             searchString = keyword
