@@ -13,7 +13,7 @@ import com.intellij.usages.UsagePresentation
 class CustomFileUsage(private val file: VirtualFile, private val project : Project) : Usage {
 
     override fun getPresentation() = object : UsagePresentation {
-        override fun getText() = arrayOf(TextChunk(TextAttributes(), file.presentableUrl))  // Show only file name
+        override fun getText() = arrayOf(TextChunk(TextAttributes(), file.path.removePrefix(project.basePath!! + "/") ))
         override fun getPlainText(): String {
             return file.presentableUrl
         }
