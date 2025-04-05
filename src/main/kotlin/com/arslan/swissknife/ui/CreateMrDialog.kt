@@ -2,19 +2,18 @@ package com.arslan.swissknife.ui
 
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
-import com.intellij.ui.dsl.builder.Align
-import com.intellij.ui.dsl.builder.bindText
-import com.intellij.ui.dsl.builder.panel
+import com.intellij.ui.dsl.builder.*
 import javax.swing.*
 
 
 class CreateMrDialog(project: Project?) : DialogWrapper(project) {
 
+    var targetBranch = ""
     var mrTitle = ""
     private val options = listOf("Option 1", "Option 2", "Option 3")
 
     init {
-        mrTitle = "Create Mr Dialog"
+        title = "Create MR"
         init()
     }
 
@@ -25,6 +24,11 @@ class CreateMrDialog(project: Project?) : DialogWrapper(project) {
 
     override fun createCenterPanel(): JComponent {
         return panel() {
+            row("Target branch"){
+                comboBox(options, null)
+                    .align(Align.FILL)
+                    .bindItem({ targetBranch}, {targetBranch = it ?: "" })
+            }
             row("Title"){
                 textField()
                     .resizableColumn()

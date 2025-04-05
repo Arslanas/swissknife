@@ -20,7 +20,22 @@ class CreateMrAction : AnAction(){
         }
 
         val title = dialog.mrTitle
+        val targetBranch = dialog.targetBranch
 
-        Messages.showInfoMessage(title, "Create Mr Action")
+        val response = Messages.showYesNoDialog(
+            project,
+            """
+                Please confirm that you want to create MR ?
+                Title : $title
+                Target branch : origin/$targetBranch
+            """.trimIndent(),
+            "Confirm MR",
+            Messages.getQuestionIcon()
+        )
+        val confirmed = response == Messages.YES
+
+        if (!confirmed) {
+            return
+        }
     }
 }
