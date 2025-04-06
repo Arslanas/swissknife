@@ -30,6 +30,10 @@ class CapgSettings : PersistentStateComponent<CapgSettings.State> {
         return settings.common
     }
 
+    fun updateSettings(newSettings : MutableMap<String, String>){
+        settings.common = newSettings
+    }
+
     fun get(enum : SettingsEnum): String? {
         return settings.common[enum.key]
     }
