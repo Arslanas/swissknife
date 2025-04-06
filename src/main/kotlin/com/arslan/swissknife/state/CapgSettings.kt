@@ -1,5 +1,6 @@
 package com.arslan.swissknife.state
 
+import com.arslan.swissknife.enum.SettingsEnum
 import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
@@ -7,7 +8,11 @@ import com.intellij.openapi.components.Storage
 @State(name = "CapgSettings", storages = [Storage("capg_settings.xml")])
 class CapgSettings : PersistentStateComponent<CapgSettings.State> {
 
-    data class State(var queries: MutableMap<String, String> = mutableMapOf())
+    data class State(var queries: MutableMap<String, String> = mutableMapOf(),
+                     var common: MutableMap<String, String> = SettingsEnum.entries
+                         .associate{ it.key to "" }
+                         .toMutableMap()
+    )
 
     private var settings = State()
 
@@ -19,6 +24,15 @@ class CapgSettings : PersistentStateComponent<CapgSettings.State> {
         settings = state
     }
 
+
+    // Common setting operations
+    fun getCommonSettingsMap(): MutableMap<String, String>{
+        return settings.common
+    }
+
+    fun get(enum : SettingsEnum): String? {
+        return settings.common[enum.key]
+    }
 
     // Sql query CRUD operations
     fun saveQuery(id: String, query: String) {
