@@ -3,7 +3,11 @@ package com.arslan.swissknife.actions
 import com.arslan.swissknife.ui.CreateMrDialog
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.application.EDT
 import com.intellij.openapi.ui.Messages
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.File
 
 class CreateMrAction : AnAction(){
@@ -39,9 +43,14 @@ class CreateMrAction : AnAction(){
             return
         }
 
-        val output = runJsFile()
+        CoroutineScope(Dispatchers.IO).launch {
+            val output = runJsFile()
 
-        Messages.showInfoMessage(output, "Output From JS Script")
+            CoroutineScope(Dispatchers.EDT).launch {
+                Messages.showInfoMessage(output, "Output From JS Script")
+            }
+        }
+
 
 
     }
