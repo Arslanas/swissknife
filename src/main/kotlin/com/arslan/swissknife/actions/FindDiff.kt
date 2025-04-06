@@ -34,14 +34,16 @@ class FindDiff : AnAction(){
             init()
         }
 
+        override fun getDimensionServiceKey(): String {
+            return "FindDiff"
+        }
+
         override fun createCenterPanel(): JComponent {
             return panel {
-                row("A") {
-                    textArea().align(Align.FILL).bindText({a}, {a = it})
-                }
-                row("B") {
-                    textArea().align(Align.FILL).bindText({b}, {b = it})
-                }
+                row {
+                    textArea().bindText({a}, {a = it}).align(Align.FILL).resizableColumn()
+                    textArea().bindText({b}, {b = it}).align(Align.FILL).resizableColumn()
+                }.resizableRow()
             }
         }
 
