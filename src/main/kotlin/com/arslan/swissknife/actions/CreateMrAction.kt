@@ -29,7 +29,7 @@ class CreateMrAction : AnAction(){
             .filter { it.contains("release") }
             .sortedDescending()
 
-        val dialog = CreateMrDialog(project, releaseBranches)
+        val dialog = CreateMrDialog(project, releaseBranches, currentBranch)
         if (!dialog.showAndGet()) {
             return
         }
@@ -41,10 +41,11 @@ class CreateMrAction : AnAction(){
             project,
             """
                 Confirm MR details :
+                Source branch : origin/$currentBranch
                 Target branch : origin/$targetBranch
                 Title : $title
             """.trimIndent(),
-            "Confirm MR",
+            "Confirm Release Branch MR",
             Messages.getQuestionIcon()
         )
         val confirmed = response == Messages.YES
