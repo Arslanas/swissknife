@@ -6,7 +6,6 @@
 1. lookup files by usage
 1. show usages of JPA interface by clicking 
 1. open related unit test class on right click
-1. lookup files by keyword
 1. create MR for release branch - input title (prepopulated by Jira name)
 1. convert sql extracted from DB to java JPA entity class
 1. on click do create entry in changelog and update + rollback scripts
