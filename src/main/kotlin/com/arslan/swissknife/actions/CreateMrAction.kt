@@ -14,7 +14,6 @@ import kotlinx.serialization.json.Json
 class CreateMrAction : AnAction(){
 
     override fun actionPerformed(e: AnActionEvent) {
-
         val project = e.project ?: run{
             Messages.showErrorDialog("No project found", "Error")
             return
@@ -51,9 +50,6 @@ class CreateMrAction : AnAction(){
                 Messages.showInfoMessage(output, "Output From JS Script")
             }
         }
-
-
-
     }
 
     fun runJsFile(title: String, targetBranch: String): String {
