@@ -8,7 +8,10 @@ import com.intellij.openapi.ui.Messages
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.io.File
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.internal.writeJson
+import org.jetbrains.io.JsonUtil
 
 class CreateMrAction : AnAction(){
 
@@ -44,7 +47,7 @@ class CreateMrAction : AnAction(){
         }
 
         CoroutineScope(Dispatchers.IO).launch {
-            val output = runJsFile()
+            val output = runJsFile(title, targetBranch)
 
             CoroutineScope(Dispatchers.EDT).launch {
                 Messages.showInfoMessage(output, "Output From JS Script")
@@ -55,13 +58,18 @@ class CreateMrAction : AnAction(){
 
     }
 
-    fun runJsFile(): String {
-        val process = ProcessBuilder("node", "C:\\D\\APPLICATIONS\\IDE_PLUGINS\\swissknife\\js\\Create_MR.js")
-            .redirectErrorStream(true)
-            .start()
+    fun runJsFile(title: String, targetBranch: String): String {
+        val processBuilder =
+            ProcessBuilder("node", "C:\\D\\APPLICATIONS\\IDE_PLUGINS\\swissknife\\js\\Create_MR.js")
+                .redirectErrorStream(true);
+        val argumentJson = Json.encodeToString(mapOf("title" to title, "target_branch" to targetBranch))
+        println(argumentJson)
+        processBuilder.environment()["CREATE_MR_DETAILS"] = argumentJson
+        val process = processBuilder.start()
 
         val output = process.inputStream.bufferedReader().readText()
         process.waitFor()
+        println(output)
         return output
     }
 }
