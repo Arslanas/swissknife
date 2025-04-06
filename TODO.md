@@ -1,6 +1,6 @@
 
 ## To do
-1. diff checker. Open 2 text panels, paste text, create a diff checker.
+1. Open jira folder - add analysis-xxxx.xlsx  and notes-xxxx.txt files by default if not exist
 1. pluggable modifier of the selected code. Copy text from editor, call python/js scripts to transform the selected text, paste transformed text to editor
 1. open MR in browser
 1. lookup files by usage
@@ -12,6 +12,7 @@
 1. get all my branches which are not yet merged to release branch
 
 ## Done
+1. diff checker. Open 2 text panels, paste text, create a diff checker.
 1. create MR for release branch. Input title (prepopulated by Jira name), target branch
 1. get files by keyword
 1. rebase upon master
