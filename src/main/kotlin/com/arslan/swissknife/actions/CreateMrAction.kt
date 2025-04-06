@@ -25,7 +25,7 @@ class CreateMrAction : AnAction(){
         val response = Messages.showYesNoDialog(
             project,
             """
-                Please confirm that you want to create MR ?
+                Confirm MR details :
                 Title : $title
                 Target branch : origin/$targetBranch
             """.trimIndent(),
