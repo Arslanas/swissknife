@@ -6,11 +6,10 @@ import com.intellij.ui.dsl.builder.*
 import javax.swing.*
 
 
-class CreateMrDialog(project: Project?) : DialogWrapper(project) {
+class CreateMrDialog(project: Project?, val options: List<String>) : DialogWrapper(project) {
 
     var targetBranch = ""
     var mrTitle = ""
-    private val options = listOf("Option 1", "Option 2", "Option 3")
 
     init {
         title = "Create MR"
