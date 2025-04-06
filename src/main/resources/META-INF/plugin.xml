@@ -55,6 +55,15 @@
                popup="true">
 
             <action
+                    id="com.arslan.swissknife.actions.SettingsAction"
+                    class="com.arslan.swissknife.actions.SettingsAction"
+                    text="Settings"
+                    description="Settings">
+            </action>
+
+            <separator/>
+
+            <action
                     id="com.arslan.swissknife.actions.CreateFeatureBranch"
                     class="com.arslan.swissknife.actions.CreateFeatureBranch"
                     text="Create Jira branch"
@@ -97,12 +106,14 @@
                     text="Jira Folder"
                     description="Open jira folder">
             </action>
+
             <action
-                    id="com.arslan.swissknife.actions.SettingsAction"
-                    class="com.arslan.swissknife.actions.SettingsAction"
-                    text="Settings"
-                    description="Settings">
+                    id="com.arslan.swissknife.actions.FindDiff"
+                    class="com.arslan.swissknife.actions.FindDiff"
+                    text="Find Diff"
+                    description="Find DIff">
             </action>
+
             <separator/>
 
             <action
