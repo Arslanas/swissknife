@@ -26,8 +26,8 @@ class CreateMrAction : AnAction(){
             project,
             """
                 Confirm MR details :
-                Title : $title
                 Target branch : origin/$targetBranch
+                Title : $title
             """.trimIndent(),
             "Confirm MR",
             Messages.getQuestionIcon()
