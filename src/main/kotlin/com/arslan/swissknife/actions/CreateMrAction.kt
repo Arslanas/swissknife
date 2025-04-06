@@ -38,10 +38,16 @@ class CreateMrAction : AnAction(){
         if (!confirmed) {
             return
         }
+
+        val output = runJsFile()
+
+        Messages.showInfoMessage(output, "Output From JS Script")
+
+
     }
 
-    fun runJsFile(jsFile: File): String {
-        val process = ProcessBuilder("node", jsFile.absolutePath)
+    fun runJsFile(): String {
+        val process = ProcessBuilder("node", "C:\\D\\APPLICATIONS\\IDE_PLUGINS\\swissknife\\js\\Create_MR.js")
             .redirectErrorStream(true)
             .start()
 

@@ -6,4 +6,3 @@ const details = {
 console.log(`Create MR for details 
     branch : ${details.targetBranch} 
     title : ${details.title}`)
-
