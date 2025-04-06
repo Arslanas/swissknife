@@ -1,9 +1,12 @@
 package com.arslan.swissknife.actions
 
+import com.arslan.swissknife.enum.SettingsEnum
+import com.arslan.swissknife.state.CapgSettings
 import com.arslan.swissknife.ui.CreateMrDialog
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.application.EDT
+import com.intellij.openapi.components.service
 import com.intellij.openapi.ui.Messages
 import git4idea.repo.GitRepositoryManager
 import kotlinx.coroutines.CoroutineScope
@@ -65,7 +68,8 @@ class CreateMrAction : AnAction(){
     }
 
     fun runJsFile(title: String, targetBranch: String, currentBranch: String): String {
-        val filePath = "C:\\D\\APPLICATIONS\\IDE_PLUGINS\\swissknife\\js\\Create_MR.js";
+        val service = service<CapgSettings>()
+        val filePath = service.get(SettingsEnum.CREATE_MR_SCRIPT_PATH)
         val processBuilder = ProcessBuilder("node", filePath).redirectErrorStream(true);
         val json = Json.encodeToString(mapOf(
             "sourceBranch" to currentBranch,
