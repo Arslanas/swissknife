@@ -1,6 +1,7 @@
 package com.arslan.swissknife.actions
 
 import com.intellij.diff.DiffContentFactory
+import com.intellij.diff.DiffDialogHints
 import com.intellij.diff.DiffManager
 import com.intellij.diff.requests.SimpleDiffRequest
 import com.intellij.openapi.actionSystem.AnAction
@@ -8,6 +9,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.ui.Messages
+import com.intellij.openapi.ui.WindowWrapper
 import com.intellij.ui.dsl.builder.Align
 import com.intellij.ui.dsl.builder.bindText
 import com.intellij.ui.dsl.builder.panel
@@ -24,7 +26,7 @@ class FindDiff : AnAction(){
         DiffDialog(project).show()
     }
 
-    class DiffDialog(private val project: Project) : DialogWrapper(project, false) {
+    class DiffDialog(private val project: Project) : DialogWrapper(project) {
 
         private var a = ""
         private var b = ""
@@ -65,7 +67,7 @@ class FindDiff : AnAction(){
                 "Left", "Right"
             )
 
-            DiffManager.getInstance().showDiff(project, request)
+            DiffManager.getInstance().showDiff(project, request, DiffDialogHints(WindowWrapper.Mode.NON_MODAL))
         }
     }
 
