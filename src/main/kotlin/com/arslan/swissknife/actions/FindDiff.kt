@@ -24,7 +24,7 @@ class FindDiff : AnAction(){
         DiffDialog(project).show()
     }
 
-    class DiffDialog(private val project: Project) : DialogWrapper(project) {
+    class DiffDialog(private val project: Project) : DialogWrapper(project, false) {
 
         private var a = ""
         private var b = ""
@@ -32,7 +32,9 @@ class FindDiff : AnAction(){
         init {
             title = "Compare Texts"
             init()
+            peer.isModal = false
         }
+
 
         override fun getDimensionServiceKey(): String {
             return "FindDiff"
