@@ -4,6 +4,7 @@ import com.arslan.swissknife.ui.CreateMrDialog
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.ui.Messages
+import java.io.File
 
 class CreateMrAction : AnAction(){
 
@@ -37,5 +38,15 @@ class CreateMrAction : AnAction(){
         if (!confirmed) {
             return
         }
+    }
+
+    fun runJsFile(jsFile: File): String {
+        val process = ProcessBuilder("node", jsFile.absolutePath)
+            .redirectErrorStream(true)
+            .start()
+
+        val output = process.inputStream.bufferedReader().readText()
+        process.waitFor()
+        return output
     }
 }
