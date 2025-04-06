@@ -34,6 +34,7 @@ class CreateMrAction : AnAction(){
             return
         }
 
+        // TODO : automate title, take it from Jira
         val title = dialog.mrTitle
         val targetBranch = dialog.targetBranch
 
