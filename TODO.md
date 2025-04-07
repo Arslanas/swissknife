@@ -1,7 +1,7 @@
 
 ## To do
 1. Open jira folder - add analysis-xxxx.xlsx  and notes-xxxx.txt files by default if not exist
-1. Bump up version for release branch for selected components. Also select target release.yml. 
+1. Bump up version for release branch for selected components. Also select target release.yml. Consider update of core component. 
 1. Get list of MRs where I made a comment but not yet resolved a thread.
 1. pluggable modifier of the selected code. Copy text from editor, call python/js scripts to transform the selected text, paste transformed text to editor
 1. open MR in browser
