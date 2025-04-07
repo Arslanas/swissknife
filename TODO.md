@@ -12,7 +12,7 @@
 1. convert sql extracted from DB to java JPA entity class
 1. on click do create entry in changelog and update + rollback scripts
 1. get all my branches which are not yet merged to release branch
-
+ 
 ## Done
 1. diff checker. Open 2 text panels, paste text, create a diff checker.
 1. create MR for release branch. Input title (prepopulated by Jira name), target branch
