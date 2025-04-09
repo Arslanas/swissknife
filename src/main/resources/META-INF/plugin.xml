@@ -101,7 +101,7 @@
             <separator/>
 
             <action
-                    id="Swissknife.Jirafolder"
+                    id="com.arslan.swissknife.actions.Jirafolder"
                     class="com.arslan.swissknife.actions.Jirafolder"
                     text="Jira Folder"
                     description="Open jira folder">
@@ -143,6 +143,12 @@
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </group>
 
+        <action id="OpenGitLabMR"
+                class="com.arslan.swissknife.actions.OpenGitLabMRAction"
+                text="Open GitLab MR"
+                description="Open the associated GitLab Merge Request in a browser">
+            <add-to-group group-id="Vcs.Log.ContextMenu" anchor="first"/>
+        </action>
 
     </actions>
 
