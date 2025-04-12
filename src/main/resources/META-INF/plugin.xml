@@ -88,7 +88,14 @@
                     id="com.arslan.swissknife.actions.RebaseUponMasterBranch"
                     class="com.arslan.swissknife.actions.RebaseUponMasterBranch"
                     text="Rebase on Master"
-                    description="Update master branch">
+                    description="Rebase on Master">
+            </action>
+
+            <action
+                    id="com.arslan.swissknife.actions.RebaseUponReleaseBranch"
+                    class="com.arslan.swissknife.actions.RebaseUponReleaseBranch"
+                    text="Rebase on Release"
+                    description="Rebase on Master">
             </action>
 
             <action

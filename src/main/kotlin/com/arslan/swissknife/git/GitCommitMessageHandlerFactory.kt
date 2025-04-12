@@ -1,6 +1,6 @@
 package com.arslan.swissknife.git
 
-import com.arslan.swissknife.util.SwissknifeUtil
+import com.arslan.swissknife.util.CommonUtil
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.vcs.CheckinProjectPanel
 import com.intellij.openapi.vcs.changes.CommitContext
@@ -24,7 +24,7 @@ class GitCommitMessageHandlerFactory : CheckinHandlerFactory() {
 
                 currentBranch?.let {
                     CoroutineScope(Dispatchers.IO).launch {
-                        val lastCommitMessage = SwissknifeUtil.getLastCommitMessage(panel.project, repository)
+                        val lastCommitMessage = CommonUtil.getLastCommitMessage(panel.project, repository)
                         WriteCommandAction.runWriteCommandAction(panel.project, {
                             if (lastCommitMessage.contains(it)) {
                                 panel.setCommitMessage(lastCommitMessage)

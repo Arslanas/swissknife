@@ -10,7 +10,7 @@ import git4idea.commands.GitLineHandlerListener
 import git4idea.repo.GitRepository
 import kotlinx.coroutines.*
 
-class SwissknifeUtil {
+class CommonUtil {
 
 
     companion object {

@@ -1,21 +1,17 @@
 package com.arslan.swissknife.actions
 
-import com.arslan.swissknife.util.SwissknifeUtil
+import com.arslan.swissknife.util.CommonUtil
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.openapi.application.EDT
 import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.progress.Task
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
 import git4idea.commands.Git
-import git4idea.commands.GitLineHandlerListener
 import git4idea.repo.GitRemote
 import git4idea.repo.GitRepository
 import git4idea.repo.GitRepositoryManager
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.*
 
 class CreateFeatureBranch : AnAction(){
 
@@ -78,20 +74,20 @@ class CreateFeatureBranch : AnAction(){
         indicator.text = "Fetching latest changes and updating master branch"
         if ("master".equals(repository.currentBranch?.name)){
             println("Already on master branch, so just merge the remote one")
-            git.merge(repository, "origin/master", null, SwissknifeUtil.consolePrinter)
+            git.merge(repository, "origin/master", null, CommonUtil.consolePrinter)
         } else {
-            val fetchResult = git.fetch(repository, remote, listOf(SwissknifeUtil.consolePrinter), "master:master")
+            val fetchResult = git.fetch(repository, remote, listOf(CommonUtil.consolePrinter), "master:master")
             if (!fetchResult.success()) {
-                SwissknifeUtil.showError(project, "Failed to fetch the latest changes: ${fetchResult.getErrorOutputAsJoinedString()}")
+                CommonUtil.showError(project, "Failed to fetch the latest changes: ${fetchResult.getErrorOutputAsJoinedString()}")
                 return;
             }
         }
 
 
         indicator.text = "Checkout new branch ${branchName}"
-        val checkoutNewBranch = git.checkout(repository, "master", branchName, false, false, SwissknifeUtil.consolePrinter )
+        val checkoutNewBranch = git.checkout(repository, "master", branchName, false, false, CommonUtil.consolePrinter )
         if (!checkoutNewBranch.success()) {
-            SwissknifeUtil.showError(project, "Failed to checkout new branch ${branchName}: ${checkoutNewBranch.getErrorOutputAsJoinedString()}")
+            CommonUtil.showError(project, "Failed to checkout new branch ${branchName}: ${checkoutNewBranch.getErrorOutputAsJoinedString()}")
             return;
         }
 

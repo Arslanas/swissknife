@@ -1,6 +1,6 @@
 package com.arslan.swissknife.actions
 
-import com.arslan.swissknife.util.SwissknifeUtil
+import com.arslan.swissknife.util.CommonUtil
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.application.EDT
@@ -88,12 +88,12 @@ class CreateReleaseBranch : AnAction() {
                                     resultBranch,
                                     false,
                                     false,
-                                    SwissknifeUtil.consolePrinter
+                                    CommonUtil.consolePrinter
                                 )
 
                                 val unsetUpstream = GitLineHandler(project, repository.root, GitCommand.BRANCH)
                                 unsetUpstream.addParameters("--unset-upstream")
-                                unsetUpstream.addLineListener(SwissknifeUtil.consolePrinter)
+                                unsetUpstream.addLineListener(CommonUtil.consolePrinter)
                                 val unsetUpstreamResult = git.runCommand(unsetUpstream)
 
                                 repository.update()
