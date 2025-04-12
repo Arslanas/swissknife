@@ -9,10 +9,8 @@ import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.progress.Task
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
-import git4idea.branch.GitBranchUtil
 import git4idea.branch.GitRebaseParams
 import git4idea.commands.Git
-import git4idea.commands.GitLineHandlerListener
 import git4idea.config.GitExecutableManager
 import git4idea.rebase.GitRebaseUtils
 import git4idea.repo.GitRemote
@@ -87,26 +85,28 @@ class RebaseUponReleaseBranch : AnAction(){
 
         val currentBranchName = repository.currentBranchName
 
-        val newBaseBranchUpstreamName = "refs/remotes/${remote.name}/$releaseBranch"
+        val releaseBranchFullName = "refs/remotes/${remote.name}/$releaseBranch"
 
         println("""
             Rebase on release branch
                 currentBranchName: $currentBranchName
-                releaseBranch : $releaseBranch
-                newBaseBranchUpstreamName: $newBaseBranchUpstreamName
+                releaseBranch : $releaseBranchFullName
+                newBaseBranchUpstreamName: $releaseBranchFullName
         """.trimIndent()
         )
 
         val gitRebaseParams = GitRebaseParams(
             version,
             currentBranchName,
-            releaseBranch,
-            newBaseBranchUpstreamName,
+            releaseBranchFullName,
+            releaseBranchFullName,
             false,
             false
         )
 
         GitRebaseUtils.rebase(project, listOf(repository), gitRebaseParams, indicator)
+
+        repository.update()
     }
 
     fun getReleaseBranch(repository: GitRepository): String? {
