@@ -43,6 +43,19 @@ class RebaseUponMasterBranch : AnAction(){
             .orElseThrow { Exception("Remote not found") }
 
 
+        if (repository.currentBranchName!!.matches(".*capg\\.20.*$".toRegex())) {
+            val response = Messages.showYesNoDialog(
+                project,
+                "Are you sure you want to rebase on master?",
+                "Confirm Rebase On Master Branch",
+                Messages.getQuestionIcon()
+            )
+
+            if (response != Messages.YES) {
+                return
+            }
+
+        }
 
         ProgressManager.getInstance().run(
             object : Task.Backgroundable(project, "Update master branch", false
