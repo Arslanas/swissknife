@@ -25,6 +25,9 @@ class Jirafolder : AnAction(){
 
     val path: Path  = Paths.get("${System.getProperty("user.home")}\\Workspace\\jira")
     val template: Path  = path.resolve("NewFileTemplate.xlsx")
+    val templateAnalysis: Path  = path.resolve("AnalysisTemplate.xlsx")
+    val templateNotes: Path  = path.resolve("NotesTemplate.txt")
+    val templateSqls: Path  = path.resolve("SQL.sql")
 
     override fun actionPerformed(e: AnActionEvent) {
 
@@ -47,8 +50,10 @@ class Jirafolder : AnAction(){
         val jiraFolderPath = path.resolve(jiraNumber)
         if (!Files.exists(jiraFolderPath)) {
             Files.createDirectories(jiraFolderPath)
-            val templatePath = jiraFolderPath.resolve("DevTest-${jiraNumber}.xlsx")
-            Files.copy(template, templatePath)
+            Files.copy(template, jiraFolderPath.resolve("DevTest-${jiraNumber}.xlsx"))
+            Files.copy(templateAnalysis, jiraFolderPath.resolve("Analysis-${jiraNumber}.xlsx"))
+            Files.copy(templateNotes, jiraFolderPath.resolve("Notes-${jiraNumber}.txt"))
+            Files.copy(templateSqls, jiraFolderPath.resolve("SQL-${jiraNumber}.sql"))
         }
 
         Desktop.getDesktop().open(jiraFolderPath.toFile())
