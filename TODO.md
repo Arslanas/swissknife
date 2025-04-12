@@ -7,10 +7,10 @@
 1. show usages of JPA interface by clicking
 
 ## To do externals
+1. pluggable modifier of the selected code. Copy text from editor, call python/js scripts to transform the selected text, paste transformed text to editor
 1. Get list of MRs where I made a comment but not yet resolved a thread.
 1. get all my branches which are not yet merged to release branch
 1. open MR in browser
-1. pluggable modifier of the selected code. Copy text from editor, call python/js scripts to transform the selected text, paste transformed text to editor
 
 
 ## Done
