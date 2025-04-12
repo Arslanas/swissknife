@@ -11,6 +11,7 @@ import javax.swing.*
 class CustomInputDialog(project: Project?) : DialogWrapper(project) {
 
     private val inputField = JTextField("")
+    private val fileFilter = JTextField("")
     private val regexp = JCheckBox(AllIcons.Actions.Regex,  false)
 
     private val caseSensitive = JCheckBox(AllIcons.Actions.MatchCase,  false)
@@ -40,6 +41,8 @@ class CustomInputDialog(project: Project?) : DialogWrapper(project) {
                 cell(regexp)
                 cell(JLabel("", AllIcons.Actions.MatchCase, SwingConstants.LEFT))
                 cell(caseSensitive)
+                cell(JLabel("", AllIcons.Actions.ShortcutFilter, SwingConstants.LEFT))
+                cell(fileFilter).align(Align.FILL)
             }
         }
     }
@@ -47,4 +50,5 @@ class CustomInputDialog(project: Project?) : DialogWrapper(project) {
     fun getInputText(): String = inputField.text
     fun isRegexp(): Boolean = regexp.isSelected
     fun isCaseSensitive(): Boolean = caseSensitive.isSelected
+    fun getFileFilter(): String = fileFilter.text
 }

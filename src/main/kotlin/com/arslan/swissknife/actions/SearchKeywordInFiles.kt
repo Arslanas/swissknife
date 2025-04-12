@@ -50,6 +50,7 @@ class SearchKeywordInFiles : AnAction() {
             isWholeWordsOnly = false
             isFindAll = true
             isFindAllEnabled = true
+            fileFilter = dialog.getFileFilter()
             searchContext = FindModel.SearchContext.ANY
         }
 
