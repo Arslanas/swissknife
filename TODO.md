@@ -1,6 +1,5 @@
 
 ## To do
-1. lookup files by usage - filter by file type
 1. open related unit test class on right click   
 1. convert sql extracted from DB to java JPA entity class
 1. on click do create entry in changelog and update + rollback scripts
@@ -15,6 +14,7 @@
 
 
 ## Done
+1. lookup files by usage - filter by file type
 1. rebase on release branch selected
 1. Open jira folder - add analysis-xxxx.xlsx  and notes-xxxx.txt files by default if not exist
 1. diff checker. Open 2 text panels, paste text, create a diff checker.  
