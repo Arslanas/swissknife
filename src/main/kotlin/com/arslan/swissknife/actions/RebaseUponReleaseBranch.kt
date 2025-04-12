@@ -44,6 +44,22 @@ class RebaseUponReleaseBranch : AnAction(){
 
         val releaseBranch = getReleaseBranch(repository) ?: return
 
+        if (!repository.currentBranchName!!.contains(releaseBranch.substringAfter("release/"))){
+            println(repository.currentBranchName)
+            println(releaseBranch)
+            val response = Messages.showYesNoDialog(
+                project,
+                "Are you sure you want to rebase on ${releaseBranch} ?",
+                "Confirm Rebase On Different Branch",
+                Messages.getQuestionIcon()
+            )
+
+            if (response != Messages.YES) {
+                return
+            }
+
+        }
+
         ProgressManager.getInstance().run(
             object : Task.Backgroundable(project, "Update master branch", false
         ){
