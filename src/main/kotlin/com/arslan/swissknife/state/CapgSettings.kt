@@ -49,6 +49,10 @@ class CapgSettings : PersistentStateComponent<CapgSettings.State> {
         return settings.common.keys.filter { it.startsWith(TRANSFORMER_PREFIX) }.sorted()
     }
 
+    fun saveTransformer(id: String, filePath: String) {
+        settings.common[TRANSFORMER_PREFIX + id] = filePath
+    }
+
     // Sql query CRUD operations
     fun saveQuery(id: String, query: String) {
         settings.queries[id] = query
