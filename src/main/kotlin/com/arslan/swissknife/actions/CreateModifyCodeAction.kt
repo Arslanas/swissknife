@@ -1,7 +1,7 @@
 package com.arslan.swissknife.actions
 
 import com.arslan.swissknife.state.CapgSettings
-import com.arslan.swissknife.ui.CustomMultilineDialog
+import com.arslan.swissknife.ui.ManageSettingsDialog
 import com.intellij.openapi.actionSystem.*
 import com.intellij.openapi.components.service
 import com.intellij.openapi.ui.Messages
@@ -47,7 +47,7 @@ class CreateModifyCodeAction : AnAction() {
 
         val query = settings.getQuery(selectedQueryId) ?: ""
 
-        val dialog = CustomMultilineDialog(query, selectedQueryId, !settings.hasQuery(selectedQueryId))
+        val dialog = ManageSettingsDialog(query, selectedQueryId, !settings.hasQuery(selectedQueryId))
         val wasOk = dialog.showAndGet()
         if (wasOk) {  // Waits for user action
             val input = dialog.getInputText()

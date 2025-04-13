@@ -7,7 +7,7 @@ import com.intellij.ui.components.JBScrollPane
 import com.intellij.ui.components.JBTextArea
 import javax.swing.*
 
-class CustomMultilineDialog(
+class ManageSettingsDialog(
     private val query: String = "",
     private val queryId: String = "",
     private val isNew: Boolean = false,
