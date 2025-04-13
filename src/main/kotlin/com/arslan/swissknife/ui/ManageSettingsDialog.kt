@@ -7,8 +7,8 @@ import java.util.function.Consumer
 import javax.swing.*
 
 class ManageSettingsDialog(
-    private val query: String = "",
-    private val queryId: String = "",
+    private val value: String = "",
+    private val id: String = "",
     private val isNew: Boolean = false,
     private val isMultiLine: Boolean = true,
     private val deleteOperation : Consumer<String>
@@ -17,14 +17,14 @@ class ManageSettingsDialog(
     private val textArea = JBTextArea(25, 100).apply {
         lineWrap = true
         wrapStyleWord = true
-        text = query
+        text = value
     }
 
-    private val inputField = JTextField()
+    private val inputField = JTextField(value)
 
     init {
         init()
-        title = "Enter Value for $queryId"
+        title = "Enter Value for $id"
     }
 
     override fun createCenterPanel(): JComponent {
@@ -36,7 +36,7 @@ class ManageSettingsDialog(
 
     override fun createActions(): Array<Action> {
         return arrayOf(okAction, cancelAction) +
-                if (isNew) emptyArray() else arrayOf(DeleteAction(queryId))
+                if (isNew) emptyArray() else arrayOf(DeleteAction(id))
     }
 
     fun getInputText(): String = if (isMultiLine) textArea.text else inputField.text
