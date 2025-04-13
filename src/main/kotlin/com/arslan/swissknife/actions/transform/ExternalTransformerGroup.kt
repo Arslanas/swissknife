@@ -6,6 +6,7 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.application.EDT
+import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.components.service
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.ui.Messages
@@ -35,9 +36,10 @@ class ExternalTransformerGroup  : ActionGroup() {
 
             CoroutineScope(Dispatchers.IO).launch {
                 val output = runScript(filePath, command, text)
-
-                CoroutineScope(Dispatchers.EDT).launch {
-                    Messages.showInfoMessage(output, "Output From JS Script")
+                editor.caretModel.allCarets.forEach {
+                    WriteCommandAction.runWriteCommandAction(project, {
+                        editor.document.replaceString(it.selectionStart, it.selectionEnd, output)
+                    })
                 }
             }
         }
