@@ -38,6 +38,15 @@ class CapgSettings : PersistentStateComponent<CapgSettings.State> {
         return settings.common[enum.key]
     }
 
+    // Transformers
+    fun getTransformerFilePath(id : String) : String? {
+        return settings.common["TRANSFORMERS.$id"]
+    }
+
+    fun getTransformers() : List<String> {
+        return settings.common.keys.filter { it -> it.startsWith("TRANSFORMERS.") }.sorted()
+    }
+
     // Sql query CRUD operations
     fun saveQuery(id: String, query: String) {
         settings.queries[id] = query

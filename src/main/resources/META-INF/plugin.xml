@@ -146,8 +146,8 @@
                    popup="true">
 
                 <action
-                        id="com.arslan.swissknife.actions.transform.ExternalTransformer"
-                        class="com.arslan.swissknife.actions.transform.ExternalTransformer"
+                        id="com.arslan.swissknife.actions.transform.ExternalTransformerGroup"
+                        class="com.arslan.swissknife.actions.transform.ExternalTransformerGroup"
                         text="To Constant"
                         description="To constant">
                 </action>
