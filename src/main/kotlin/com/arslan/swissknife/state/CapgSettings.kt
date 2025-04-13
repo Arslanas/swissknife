@@ -39,12 +39,14 @@ class CapgSettings : PersistentStateComponent<CapgSettings.State> {
     }
 
     // Transformers
+    private val TRANSFORMER_PREFIX = "TRANSFORMERS."
+
     fun getTransformerFilePath(id : String) : String? {
-        return settings.common["TRANSFORMERS.$id"]
+        return settings.common[TRANSFORMER_PREFIX + id]
     }
 
     fun getTransformers() : List<String> {
-        return settings.common.keys.filter { it -> it.startsWith("TRANSFORMERS.") }.sorted()
+        return settings.common.keys.filter { it.startsWith(TRANSFORMER_PREFIX) }.sorted()
     }
 
     // Sql query CRUD operations
