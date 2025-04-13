@@ -138,6 +138,23 @@
             />
 
             <separator/>
+
+            <group
+                    id = "com.arslan.swissknife.actions.TransformGroup"
+                   text="Transformers"
+                   description="Read - update - replace the selection"
+                   popup="true">
+
+                <action
+                        id="com.arslan.swissknife.actions.transform.ExternalTransformer"
+                        class="com.arslan.swissknife.actions.transform.ExternalTransformer"
+                        text="To Constant"
+                        description="To constant">
+                </action>
+
+            </group>
+
+            <separator/>
             <action
                     id="com.arslan.swissknife.actions.SearchKeywordInFiles"
                     class="com.arslan.swissknife.actions.SearchKeywordInFiles"
