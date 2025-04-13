@@ -46,11 +46,16 @@ class CapgSettings : PersistentStateComponent<CapgSettings.State> {
     }
 
     fun getTransformers() : List<String> {
-        return settings.common.keys.filter { it.startsWith(TRANSFORMER_PREFIX) }.sorted()
+        return settings.common.keys.filter { it.startsWith(TRANSFORMER_PREFIX) }.map{it.substringAfter(TRANSFORMER_PREFIX)}.sorted()
     }
 
     fun saveTransformer(id: String, filePath: String) {
         settings.common[TRANSFORMER_PREFIX + id] = filePath
+    }
+
+
+    fun hasTransformer(id: String): Boolean {
+        return settings.common.containsKey(TRANSFORMER_PREFIX + id)
     }
 
     // Sql query CRUD operations

@@ -140,6 +140,14 @@
 
             <separator/>
 
+
+            <action
+                    id="com.arslan.swissknife.actions.transform.CreateModifyTransformer"
+                    class="com.arslan.swissknife.actions.transform.CreateModifyTransformer"
+                    text="Create/Modify Transformer"
+                    description="Create/Modify transformer">
+            </action>
+
             <group
                     id="com.arslan.swissknife.actions.transform.ExternalTransformerGroup"
                     class="com.arslan.swissknife.actions.transform.ExternalTransformerGroup"
