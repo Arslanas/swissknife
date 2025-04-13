@@ -20,7 +20,7 @@ class CreateModifyTransformer : AnAction() {
             .plus(settings.getTransformers())
             .toTypedArray()
 
-        var selectedQueryId = Messages.showEditableChooseDialog(
+        var selectedId = Messages.showEditableChooseDialog(
             "Select transformer for modifications",
             "Transformer Manager",
             Messages.getQuestionIcon(),
@@ -30,8 +30,8 @@ class CreateModifyTransformer : AnAction() {
         )
 
 
-        if (CREATE_NEW_ID.equals(selectedQueryId)){
-            selectedQueryId = Messages.showInputDialog(
+        if (CREATE_NEW_ID.equals(selectedId)){
+            selectedId = Messages.showInputDialog(
                 JBTextField(),
                 "Enter transformer ID",
                 "Enter Transformer ID",
@@ -40,20 +40,20 @@ class CreateModifyTransformer : AnAction() {
         }
 
 
-        if (selectedQueryId == null) {
+        if (selectedId == null) {
             return
         }
 
 
-        val query = settings.getQuery(selectedQueryId) ?: ""
+        val query = settings.getTransformerFilePath(selectedId) ?: ""
 
-        val dialog = ManageSettingsDialog(query, selectedQueryId, !settings.hasTransformer(selectedQueryId), false, {settings.deleteTransformer(it)} )
+        val dialog = ManageSettingsDialog(query, selectedId, !settings.hasTransformer(selectedId), false, {settings.deleteTransformer(it)} )
         val wasOk = dialog.showAndGet()
         if (wasOk) {  // Waits for user action
             val input = dialog.getInputText()
             val response = Messages.showYesNoDialog(
                 project,
-                "Are you sure you want to create/modify ${selectedQueryId} ?\n${input}",
+                "Are you sure you want to create/modify ${selectedId} ?\n${input}",
                 "Confirm Modification",
                 Messages.getQuestionIcon()
             )
@@ -62,7 +62,7 @@ class CreateModifyTransformer : AnAction() {
                 return
             }
 
-            settings.saveTransformer(selectedQueryId, input)
+            settings.saveTransformer(selectedId, input)
         }
     }
 
