@@ -58,6 +58,10 @@ class CapgSettings : PersistentStateComponent<CapgSettings.State> {
         return settings.common.containsKey(TRANSFORMER_PREFIX + id)
     }
 
+    fun deleteTransformer(id: String) {
+        settings.common.remove(TRANSFORMER_PREFIX + id)
+    }
+
     // Sql query CRUD operations
     fun saveQuery(id: String, query: String) {
         settings.queries[id] = query

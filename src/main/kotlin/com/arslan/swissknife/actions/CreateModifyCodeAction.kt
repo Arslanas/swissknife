@@ -47,7 +47,7 @@ class CreateModifyCodeAction : AnAction() {
 
         val query = settings.getQuery(selectedQueryId) ?: ""
 
-        val dialog = ManageSettingsDialog(query, selectedQueryId, !settings.hasQuery(selectedQueryId))
+        val dialog = ManageSettingsDialog(query, selectedQueryId, !settings.hasQuery(selectedQueryId), true, { settings.deleteQuery(it)})
         val wasOk = dialog.showAndGet()
         if (wasOk) {  // Waits for user action
             val input = dialog.getInputText()

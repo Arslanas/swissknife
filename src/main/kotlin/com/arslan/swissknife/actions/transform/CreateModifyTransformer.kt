@@ -47,7 +47,7 @@ class CreateModifyTransformer : AnAction() {
 
         val query = settings.getQuery(selectedQueryId) ?: ""
 
-        val dialog = ManageSettingsDialog(query, selectedQueryId, !settings.hasTransformer(selectedQueryId))
+        val dialog = ManageSettingsDialog(query, selectedQueryId, !settings.hasTransformer(selectedQueryId), false, {settings.deleteTransformer(it)} )
         val wasOk = dialog.showAndGet()
         if (wasOk) {  // Waits for user action
             val input = dialog.getInputText()
