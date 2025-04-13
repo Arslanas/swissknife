@@ -7,8 +7,8 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.application.EDT
 import com.intellij.openapi.components.service
+import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.ui.Messages
-import com.intellij.vcsUtil.VcsSelectionUtil.getSelection
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -31,7 +31,7 @@ class ExternalTransformerGroup  : ActionGroup() {
             val settings = service<CapgSettings>()
             val filePath = settings.getTransformerFilePath(id)!!
             val command = extractCommandFromFilePath(filePath)
-            val text = getSelection()
+            val text = getSelection(editor)
 
             CoroutineScope(Dispatchers.IO).launch {
                 val output = runScript(filePath, command, text)
@@ -42,12 +42,14 @@ class ExternalTransformerGroup  : ActionGroup() {
             }
         }
 
-        private fun getSelection(): String {
-            TODO("Not yet implemented")
+        private fun getSelection(editor: Editor): String {
+            return editor.selectionModel.getSelectedText(true)!!
         }
 
+        val commandMap = mapOf(Pair("js", "node"), Pair("py", "python"), Pair("java", "java"))
+
         private fun extractCommandFromFilePath(filePath: String): String {
-            TODO("Not yet implemented")
+            return commandMap.get(filePath.substringAfter('.'))!!
         }
 
 
