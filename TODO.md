@@ -1,5 +1,6 @@
 
 ## To do
+1. Search by keyword - sort list 
 1. open related unit test class on right click   
 1. convert sql extracted from DB to java JPA entity class
 1. on click do create entry in changelog and update + rollback scripts
