@@ -21,6 +21,7 @@
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
     <depends>Git4Idea</depends>
+    <depends>com.intellij.java</depends>
 
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
@@ -44,10 +45,23 @@
         <psi.referenceContributor implementation="com.arslan.swissknife.psi.LiquibasePathReferenceContributor"
                                   language="XML"/>
 
+        <intentionAction>
+            <language>JAVA</language> <!-- available in 2022.3 and later -->
+            <className>com.arslan.swissknife.intentions.ShowSave</className>
+            <category>CAPG</category>
+        </intentionAction>
 
     </extensions>
 
     <actions>
+
+        <action
+                id="com.arslan.swissknife.actions.transform.ExternalTransformerGroupHotkey"
+                class="com.arslan.swissknife.actions.transform.ExternalTransformerGroup"
+                text="Transformers"
+                description="Read - update - replace the selection"
+                popup="true"/>
+
         <!-- Grouping -->
         <group id="com.arslan.CAPGTools"
                text="CAPG"

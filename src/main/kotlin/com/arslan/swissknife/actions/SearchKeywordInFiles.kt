@@ -1,7 +1,7 @@
 package com.arslan.swissknife.actions
 
-import com.arslan.swissknife.ui.CustomFileUsage
 import com.arslan.swissknife.ui.CustomInputDialog
+import com.arslan.swissknife.ui.FileResultDialog
 import com.intellij.find.FindModel
 import com.intellij.find.impl.FindInProjectUtil
 import com.intellij.openapi.actionSystem.AnAction
@@ -10,8 +10,6 @@ import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.usageView.UsageInfo
 import com.intellij.usages.FindUsagesProcessPresentation
-import com.intellij.usages.UsageTarget
-import com.intellij.usages.UsageViewManager
 import com.intellij.usages.UsageViewPresentation
 import com.intellij.util.Processor
 
@@ -37,6 +35,7 @@ class SearchKeywordInFiles : AnAction() {
         if (keyword.isEmpty()) {
             return
         }
+
 
         val usageViewPresentation = UsageViewPresentation().apply {
             searchString = keyword
@@ -70,15 +69,13 @@ class SearchKeywordInFiles : AnAction() {
         FindInProjectUtil.findUsages(findModel, project, processor, processPresentation)
 
 
-        val usageList = uniqueFiles.map { CustomFileUsage(it, project) }
+        val usageList = uniqueFiles.toList().filterNotNull().sortedBy { it.path }
 
         if (usageList.isNotEmpty()) {
-            val usageViewManager = UsageViewManager.getInstance(project)
-            val usageTargets: Array<UsageTarget> = UsageTarget.EMPTY_ARRAY
-            usageViewPresentation.tabText = "Found ${usageList.size} files containing \"$keyword\""
-            usageViewManager.showUsages(usageTargets, usageList.toTypedArray(), usageViewPresentation)
+            FileResultDialog(project, usageList, keyword).show()
         } else {
             println("No usages found for '$keyword'")
         }
     }
+
 }

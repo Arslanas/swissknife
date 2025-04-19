@@ -20,7 +20,7 @@ intellij {
     version.set("2024.1.7")
     type.set("IU") // Target IDE Platform
 
-    plugins.set(listOf("Git4Idea"))
+    plugins.set(listOf("Git4Idea", "com.intellij.java"))
 
 }
 

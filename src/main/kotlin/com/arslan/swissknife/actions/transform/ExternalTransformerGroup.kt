@@ -33,7 +33,7 @@ class ExternalTransformerGroup  : ActionGroup() {
             val text = getSelection(editor)
 
             CoroutineScope(Dispatchers.IO).launch {
-                val output = runScript(filePath, command, text)
+                val output = runScript(filePath, command, text).replace("\r\n", "\n").removeSuffix("\n")
                 editor.caretModel.allCarets.forEach {
                     WriteCommandAction.runWriteCommandAction(project, {
                         editor.document.replaceString(it.selectionStart, it.selectionEnd, output)
