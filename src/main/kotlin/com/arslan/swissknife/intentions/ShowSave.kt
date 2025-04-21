@@ -70,6 +70,36 @@ class ShowSave : IntentionAction {
         }
     }
 
+
+    private fun lookByClassFirst(project: Project, editor: Editor?, file: PsiFile?){
+        val offset = editor!!.caretModel.offset
+        val element = file!!.findElementAt(offset) ?: return
+        val psiClass = PsiTreeUtil.getParentOfType(element, PsiClass::class.java) ?: return
+
+
+        val references = ReferencesSearch.search(psiClass, GlobalSearchScope.projectScope(project))
+
+
+        for (ref in references) {
+            val element = ref.element
+
+
+            // Look for field/variable declarations
+            val parent = element.parent
+
+            if (parent is PsiImportStatement) continue
+
+            val variable = PsiTreeUtil.getParentOfType(element, PsiVariable::class.java)
+
+            if (variable != null) {
+                val variableName = variable.name
+                println("Found variable declaration: $variableName of type ${variable.type.presentableText}")
+            } else {
+                println("Other usage: ${element.text}")
+            }
+        }
+    }
+
     private fun getQualifiedClass(query : PsiReference) : String?{
         val qualifier  = (query.element.parent as PsiMethodCallExpression).methodExpression.qualifierExpression
         val qualifierType = when (qualifier) {
