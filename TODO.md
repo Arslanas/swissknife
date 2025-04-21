@@ -1,5 +1,6 @@
 
 ## To do
+1. transformer for multi caret
 1. go to unit test - intention
 1. go to JPA repository clicking on table name - intention
 1. go to JPA repository clicking on entity - intention
