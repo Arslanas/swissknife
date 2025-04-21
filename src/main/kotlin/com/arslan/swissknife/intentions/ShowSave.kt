@@ -92,8 +92,21 @@ class ShowSave : IntentionAction {
             val variable = PsiTreeUtil.getParentOfType(element, PsiVariable::class.java)
 
             if (variable != null) {
-                val variableName = variable.name
-                println("Found variable declaration: $variableName of type ${variable.type.presentableText}")
+                val variableUsages = ReferencesSearch.search(variable, GlobalSearchScope.projectScope(project))
+                for (usage in variableUsages) {
+                    val element = usage.element
+                    val parent = element.parent
+
+                    if (parent is PsiReferenceExpression &&
+                        parent.parent is PsiMethodCallExpression
+                    ) {
+                        val methodCall = parent.parent as PsiMethodCallExpression
+                        val methodName = methodCall.methodExpression.referenceName
+                        println("Method call on variable: $methodName → ${methodCall.text}")
+
+                        // TODO : collect and show usages
+                    }
+                }
             } else {
                 println("Other usage: ${element.text}")
             }
