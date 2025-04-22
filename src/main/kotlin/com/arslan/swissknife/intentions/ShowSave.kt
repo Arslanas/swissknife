@@ -38,6 +38,7 @@ class ShowSave : IntentionAction {
 
         val references = ReferencesSearch.search(psiClass, GlobalSearchScope.projectScope(project))
 
+        val usageInfos = mutableListOf<UsageInfo>()
 
         for (ref in references) {
             val element = ref.element
@@ -49,9 +50,6 @@ class ShowSave : IntentionAction {
             if (parent is PsiImportStatement) continue
 
             val variable = PsiTreeUtil.getParentOfType(element, PsiVariable::class.java)
-
-
-            val usageInfos = mutableListOf<UsageInfo>()
 
             if (variable != null) {
                 val variableUsages = ReferencesSearch.search(variable, GlobalSearchScope.projectScope(project))
@@ -70,17 +68,16 @@ class ShowSave : IntentionAction {
             } else {
                 println("Other usage: ${element.text}")
             }
+        }
 
-
-            if (usageInfos.isEmpty()) {
-                Messages.showInfoMessage(project, "No usages of save/saveAll found.", "ShowSave")
-            } else {
-                UsageViewManager.getInstance(project).showUsages(
-                    UsageTarget.EMPTY_ARRAY,
-                    usageInfos.map { UsageInfo2UsageAdapter(it) }.toTypedArray(),
-                    UsageViewPresentation().apply { tabText = "Save/SaveAll Usages" }
-                )
-            }
+        if (usageInfos.isEmpty()) {
+            Messages.showInfoMessage(project, "No usages of save/saveAll found.", "ShowSave")
+        } else {
+            UsageViewManager.getInstance(project).showUsages(
+                UsageTarget.EMPTY_ARRAY,
+                usageInfos.map { UsageInfo2UsageAdapter(it) }.toTypedArray(),
+                UsageViewPresentation().apply { tabText = "Save/SaveAll Usages" }
+            )
         }
     }
 
