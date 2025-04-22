@@ -84,25 +84,5 @@ class ShowSave : IntentionAction {
         }
     }
 
-    private fun getQualifiedClass(query : PsiReference) : String?{
-        val qualifier  = (query.element.parent as PsiMethodCallExpression).methodExpression.qualifierExpression
-        val qualifierType = when (qualifier) {
-            is PsiReferenceExpression -> {
-                val resolved = qualifier.resolve()
-                (resolved as? PsiVariable)?.type
-            }
-
-            is PsiMethodCallExpression -> {
-                qualifier.type
-            }
-
-            else -> null
-        }
-
-        val qualifierClass = (qualifierType as? PsiClassType)?.resolve()
-
-        return qualifierClass?.qualifiedName
-    }
-
     override fun startInWriteAction(): Boolean = false
 }
