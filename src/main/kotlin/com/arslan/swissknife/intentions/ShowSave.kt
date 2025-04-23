@@ -76,7 +76,7 @@ class ShowSave : IntentionAction {
             UsageViewManager.getInstance(project).showUsages(
                 UsageTarget.EMPTY_ARRAY,
                 usageInfos.map { UsageInfo2UsageAdapter(it) }.toTypedArray(),
-                UsageViewPresentation().apply { tabText = "Save/SaveAll Usages" }
+                UsageViewPresentation().apply { tabText = "Save/SaveAll Usages : ${element.text}" }
             )
         }
     }
