@@ -1,9 +1,6 @@
 
 ## To do
-1. go to JPA repository clicking on entity - intention
 1. go to unit test - intention
-1. go to JPA repository clicking on table name - intention
-1. go to JPA entity clicking on table name - intention
 1. open changelog, give a list ordered - ?
 1. transformer for multi caret
 1. convert sql extracted from DB to java JPA entity class
