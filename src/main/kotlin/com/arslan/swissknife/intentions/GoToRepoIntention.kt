@@ -9,7 +9,6 @@ import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiClassType
 import com.intellij.psi.PsiElement
 import com.intellij.psi.search.GlobalSearchScope
-import com.intellij.psi.search.PsiShortNamesCache
 import com.intellij.psi.search.searches.ClassInheritorsSearch
 import com.intellij.util.PsiNavigateUtil
 
@@ -60,13 +59,15 @@ class GoToRepoIntention : PsiElementBaseIntentionAction() {
 
         return repoCandidates
             .filterIsInstance<PsiClass>()
-            .filter { it.isRepositoryForEntity(entityQualifiedName) }
+            .filter { isRepositoryForEntity(it, entityQualifiedName) }
     }
+//val baseClass = psiFacade.findClass("org.springframework.data.repository.CrudRepository", searchScope)
+//ClassInheritorsSearch.search(baseClass!!, searchScope, true).findAll()
+//
+    private fun isRepositoryForEntity(clazz: PsiClass, entityQualifiedName: String): Boolean {
+        if (!clazz.isInterface) return false
 
-    private fun PsiClass.isRepositoryForEntity(entityQualifiedName: String): Boolean {
-        if (!this.isInterface) return false
-
-        return this.extendsListTypes.any { type ->
+        return clazz.extendsListTypes.any { type ->
             if (type !is PsiClassType) return@any false
 
             val resolvedClass = type.resolve()
