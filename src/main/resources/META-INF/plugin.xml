@@ -46,8 +46,14 @@
                                   language="XML"/>
 
         <intentionAction>
-            <language>JAVA</language> <!-- available in 2022.3 and later -->
-            <className>com.arslan.swissknife.intentions.ShowSave</className>
+            <language>JAVA</language>
+            <className>com.arslan.swissknife.intentions.ShowSaveIntention</className>
+            <category>CAPG</category>
+        </intentionAction>
+
+        <intentionAction>
+            <language>JAVA</language>
+            <className>com.arslan.swissknife.intentions.GoToRepoIntention</className>
             <category>CAPG</category>
         </intentionAction>
 

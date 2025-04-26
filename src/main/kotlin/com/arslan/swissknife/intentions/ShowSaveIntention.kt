@@ -11,7 +11,7 @@ import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.usageView.UsageInfo
 import com.intellij.usages.*
 
-class ShowSave : IntentionAction {
+class ShowSaveIntention : IntentionAction {
     override fun getText(): String = "CAPG: show save/saveAll operations"
 
     override fun getFamilyName(): String = "My Plugin Intentions"
