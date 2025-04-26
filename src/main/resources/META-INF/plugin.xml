@@ -57,6 +57,13 @@
             <category>CAPG</category>
         </intentionAction>
 
+
+        <intentionAction>
+            <language>JAVA</language>
+            <className>com.arslan.swissknife.intentions.GoToEntityByNameIntention</className>
+            <category>CAPG</category>
+        </intentionAction>
+
     </extensions>
 
     <actions>
@@ -182,6 +189,13 @@
                     class="com.arslan.swissknife.actions.SearchKeywordInFiles"
                     text="Search Keyword in Files"
                     description="Search keyword in files">
+            </action>
+
+            <action
+                    id="com.arslan.swissknife.actions.GoToEntityByNameAction"
+                    class="com.arslan.swissknife.actions.GoToEntityByNameAction"
+                    text="Go To Entity"
+                    description="Go To Entity">
             </action>
 
             <separator/>
