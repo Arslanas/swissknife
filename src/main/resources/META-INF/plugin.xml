@@ -195,7 +195,7 @@
                     id="com.arslan.swissknife.actions.GoToEntityByNameAction"
                     class="com.arslan.swissknife.actions.GoToEntityByNameAction"
                     text="Go To Entity"
-                    description="Go To Entity">
+                    description="Go to entity">
             </action>
 
             <separator/>
