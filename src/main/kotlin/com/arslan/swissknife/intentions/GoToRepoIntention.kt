@@ -61,22 +61,21 @@ class GoToRepoIntention : PsiElementBaseIntentionAction() {
             .filterIsInstance<PsiClass>()
             .filter { isRepositoryForEntity(it, entityQualifiedName) }
     }
-//val baseClass = psiFacade.findClass("org.springframework.data.repository.CrudRepository", searchScope)
-//ClassInheritorsSearch.search(baseClass!!, searchScope, true).findAll()
-//
+
     private fun isRepositoryForEntity(clazz: PsiClass, entityQualifiedName: String): Boolean {
         if (!clazz.isInterface) return false
 
         return clazz.extendsListTypes
-            .filter { it is PsiClassType  }
-            .map { it.resolve()  }
-            .filterNotNull()
-            .filter { it.qualifiedName == "org.springframework.data.repository.CrudRepository" ||
-                    it.qualifiedName == "org.springframework.data.jpa.repository.JpaRepository"}
-            .filter { it.typeParameters.isNotEmpty() }
-            .map { (it.typeParameters.get(0) as? PsiClassType)?.resolve()  }
-            .filterNotNull()
-            .filter { it.qualifiedName == entityQualifiedName }
-            .isNotEmpty()
+            .filterIsInstance<PsiClassType>()
+            .filter {
+                val resolved = it.resolve()?.qualifiedName
+                resolved == "org.springframework.data.repository.CrudRepository" ||
+                        resolved == "org.springframework.data.jpa.repository.JpaRepository"
+            }
+            .mapNotNull { psiClassType ->
+                psiClassType.parameters.firstOrNull() as? PsiClassType
+            }
+            .mapNotNull { it.resolve() }
+            .any { it.qualifiedName == entityQualifiedName }
     }
 }
