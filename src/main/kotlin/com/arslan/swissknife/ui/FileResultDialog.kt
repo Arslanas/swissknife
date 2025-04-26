@@ -16,6 +16,7 @@ class FileResultDialog(
     private val project: Project,
     private val files: List<VirtualFile>,
     private val keyword: String,
+    private val dimensionKey: String = "FileResultDialog",
 ) : DialogWrapper(project, false, IdeModalityType.MODELESS) {
 
     private lateinit var fileList: JBList<VirtualFile>
@@ -27,7 +28,7 @@ class FileResultDialog(
     }
 
     override fun getDimensionServiceKey(): String {
-        return "FileResultDialog"
+        return dimensionKey
     }
 
     override fun createCenterPanel(): JComponent {

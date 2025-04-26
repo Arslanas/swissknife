@@ -1,5 +1,6 @@
 package com.arslan.swissknife.intentions
 
+import com.arslan.swissknife.ui.FileResultDialog
 import com.intellij.codeInsight.intention.PsiElementBaseIntentionAction
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.editor.Editor
@@ -10,6 +11,7 @@ import com.intellij.psi.PsiClassType
 import com.intellij.psi.PsiElement
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.searches.ClassInheritorsSearch
+import com.intellij.psi.util.PsiUtilCore
 import com.intellij.util.PsiNavigateUtil
 
 class GoToRepoIntention : PsiElementBaseIntentionAction() {
@@ -29,9 +31,16 @@ class GoToRepoIntention : PsiElementBaseIntentionAction() {
 
         val candidates = findRepositoryForEntity(project, qualifiedName)
 
-        ApplicationManager.getApplication().invokeLater {
-            candidates.forEach(PsiNavigateUtil::navigate)
+        if (candidates.isEmpty()) return
+
+        if (candidates.size == 1){
+            ApplicationManager.getApplication().invokeLater {
+                PsiNavigateUtil.navigate(candidates.first())
+            }
+        } else {
+            FileResultDialog(project, candidates.mapNotNull(PsiUtilCore::getVirtualFile), "Go to repo", "Go to repo").show()
         }
+
     }
 
     private fun PsiClass.isEntityClass(): Boolean {
