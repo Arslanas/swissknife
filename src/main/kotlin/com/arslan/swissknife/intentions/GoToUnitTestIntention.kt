@@ -5,6 +5,7 @@ import com.intellij.codeInsight.intention.PsiElementBaseIntentionAction
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.ui.Messages
 import com.intellij.psi.JavaPsiFacade
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiClassType
@@ -23,6 +24,7 @@ class GoToUnitTestIntention : PsiElementBaseIntentionAction() {
 
     override fun isAvailable(project: Project, editor: Editor, element: PsiElement): Boolean {
         val psiClass = element.parent as? PsiClass ?: return false
+        if (psiClass.nameIdentifier?.text?.uppercase()?.contains("TEST") == true) return false
         return element == psiClass.nameIdentifier
     }
 
@@ -32,8 +34,8 @@ class GoToUnitTestIntention : PsiElementBaseIntentionAction() {
         val candidates = findTestClassFor(project, psiClass)
 
         when {
-            candidates.isEmpty() -> return
-            candidates.size > 1 -> ApplicationManager.getApplication().invokeLater { PsiNavigateUtil.navigate(candidates.first()) }
+            candidates.isEmpty() -> Messages.showInfoMessage("There are no test classes", "Not Found")
+            candidates.size == 1 -> ApplicationManager.getApplication().invokeLater { PsiNavigateUtil.navigate(candidates.first()) }
             else -> FileResultDialog(project, candidates.mapNotNull(PsiUtilCore::getVirtualFile), "Go to repo", "Go to repo").show()
         }
     }
