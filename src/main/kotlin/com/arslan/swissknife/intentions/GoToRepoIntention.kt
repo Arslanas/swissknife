@@ -67,22 +67,16 @@ class GoToRepoIntention : PsiElementBaseIntentionAction() {
     private fun isRepositoryForEntity(clazz: PsiClass, entityQualifiedName: String): Boolean {
         if (!clazz.isInterface) return false
 
-        return clazz.extendsListTypes.any { type ->
-            if (type !is PsiClassType) return@any false
-
-            val resolvedClass = type.resolve()
-            val qName = resolvedClass?.qualifiedName ?: return@any false
-
-            if (qName != "org.springframework.data.repository.CrudRepository" &&
-                qName != "org.springframework.data.jpa.repository.JpaRepository") return@any false
-
-            val typeArguments = type.parameters
-            if (typeArguments.isEmpty()) return@any false
-
-            val entityType = typeArguments[0]
-            val entityPsiClass = (entityType as? PsiClassType)?.resolve() ?: return@any false
-
-            return@any entityPsiClass.qualifiedName == entityQualifiedName
-        }
+        return clazz.extendsListTypes
+            .filter { it is PsiClassType  }
+            .map { it.resolve()  }
+            .filterNotNull()
+            .filter { it.qualifiedName == "org.springframework.data.repository.CrudRepository" ||
+                    it.qualifiedName == "org.springframework.data.jpa.repository.JpaRepository"}
+            .filter { it.typeParameters.isNotEmpty() }
+            .map { (it.typeParameters.get(0) as? PsiClassType)?.resolve()  }
+            .filterNotNull()
+            .filter { it.qualifiedName == entityQualifiedName }
+            .isNotEmpty()
     }
 }
