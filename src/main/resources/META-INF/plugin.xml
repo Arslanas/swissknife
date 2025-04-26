@@ -80,14 +80,14 @@
             <action
                     id="com.arslan.swissknife.actions.CreateFeatureBranch"
                     class="com.arslan.swissknife.actions.CreateFeatureBranch"
-                    text="Create Jira branch"
+                    text="Create Jira Branch"
                     description="Create new branch with specific Jira number">
             </action>
 
             <action
                     id="com.arslan.swissknife.actions.CreateReleaseBranch"
                     class="com.arslan.swissknife.actions.CreateReleaseBranch"
-                    text="Create Release Jira branch"
+                    text="Create Release Jira Branch"
                     description="Create new release branch with specific Jira number">
             </action>
 
