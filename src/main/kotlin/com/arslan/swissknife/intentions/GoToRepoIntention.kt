@@ -29,10 +29,8 @@ class GoToRepoIntention : PsiElementBaseIntentionAction() {
 
         val candidates = findRepositoryForEntity(project, qualifiedName)
 
-        val targetRepo = candidates.firstOrNull() ?: return
-
         ApplicationManager.getApplication().invokeLater {
-            PsiNavigateUtil.navigate(targetRepo)
+            candidates.forEach(PsiNavigateUtil::navigate)
         }
     }
 
