@@ -1,5 +1,6 @@
 
 ## To do
+1. open Jira on commit right click
 1. open changelog, give a list ordered - ?
 1. transformer for multi caret
 1. convert sql extracted from DB to java JPA entity class
