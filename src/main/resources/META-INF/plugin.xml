@@ -64,6 +64,13 @@
             <category>CAPG</category>
         </intentionAction>
 
+
+        <intentionAction>
+            <language>JAVA</language>
+            <className>com.arslan.swissknife.intentions.GoToUnitTestIntention</className>
+            <category>CAPG</category>
+        </intentionAction>
+
     </extensions>
 
     <actions>
