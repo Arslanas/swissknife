@@ -6,7 +6,6 @@
 1. convert sql extracted from DB to java JPA entity class
 1. on click do create entry in changelog and update + rollback scripts
 1. Bump up version for release branch for selected components. Also select target release.yml. Consider update of core component.
-1. show usages of JPA interface by clicking
 
 ## To do externals
 1. Get list of MRs where I made a comment but not yet resolved a thread.
