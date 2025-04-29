@@ -14,9 +14,9 @@ import com.intellij.psi.search.searches.ClassInheritorsSearch
 import com.intellij.psi.util.PsiUtilCore
 import com.intellij.util.PsiNavigateUtil
 
-const val CRUD = "org.springframework.data.repository.CrudRepository"
+const val CRUD_REPOSITORY = "org.springframework.data.repository.CrudRepository"
 
-const val JPA = "org.springframework.data.jpa.repository.JpaRepository"
+const val JPA_REPOSITORY = "org.springframework.data.jpa.repository.JpaRepository"
 
 const val JAKARTA_PERSISTENCE_ENTITY = "jakarta.persistence.Entity"
 
@@ -50,7 +50,7 @@ class GoToRepoIntention : PsiElementBaseIntentionAction() {
                 PsiNavigateUtil.navigate(candidates.first())
             }
         } else {
-            FileResultDialog(project, candidates.mapNotNull(PsiUtilCore::getVirtualFile), "Go to repo", "Go to repo").show()
+            FileResultDialog(project, candidates.mapNotNull(PsiUtilCore::getVirtualFile).distinct(), "Go to repo", "Go to repo").show()
         }
 
     }
@@ -66,10 +66,7 @@ class GoToRepoIntention : PsiElementBaseIntentionAction() {
         val searchScope = GlobalSearchScope.allScope(project)
         val psiFacade = JavaPsiFacade.getInstance(project)
 
-        val repoBases = listOf(
-            CRUD,
-            JPA
-        )
+        val repoBases = listOf(CRUD_REPOSITORY, JPA_REPOSITORY)
 
         val repoCandidates = repoBases.flatMap { fqName ->
             val baseClass = psiFacade.findClass(fqName, searchScope) ?: return@flatMap emptyList()
@@ -88,8 +85,7 @@ class GoToRepoIntention : PsiElementBaseIntentionAction() {
             .filterIsInstance<PsiClassType>()
             .filter {
                 val resolved = it.resolve()?.qualifiedName
-                resolved == CRUD ||
-                        resolved == JPA
+                resolved == CRUD_REPOSITORY || resolved == JPA_REPOSITORY
             }
             .mapNotNull { psiClassType ->
                 psiClassType.parameters.firstOrNull() as? PsiClassType
