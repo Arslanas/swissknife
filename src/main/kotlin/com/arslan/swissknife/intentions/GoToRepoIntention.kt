@@ -14,6 +14,18 @@ import com.intellij.psi.search.searches.ClassInheritorsSearch
 import com.intellij.psi.util.PsiUtilCore
 import com.intellij.util.PsiNavigateUtil
 
+const val CRUD = "org.springframework.data.repository.CrudRepository"
+
+const val JPA = "org.springframework.data.jpa.repository.JpaRepository"
+
+const val JAKARTA_PERSISTENCE_ENTITY = "jakarta.persistence.Entity"
+
+const val JAVAX_PERSISTENCE_ENTITY = "javax.persistence.Entity"
+
+const val JAKARTA_TABLE = "jakarta.persistence.Table"
+
+const val JAVAX_TABLE = "javax.persistence.Table"
+
 class GoToRepoIntention : PsiElementBaseIntentionAction() {
 
     override fun getFamilyName(): String = "CAPG"
@@ -45,8 +57,8 @@ class GoToRepoIntention : PsiElementBaseIntentionAction() {
 
     private fun PsiClass.isEntityClass(): Boolean {
         return this.annotations.any {
-            it.qualifiedName == "jakarta.persistence.Entity" ||
-            it.qualifiedName == "javax.persistence.Entity"
+            it.qualifiedName == JAKARTA_PERSISTENCE_ENTITY ||
+            it.qualifiedName == JAVAX_PERSISTENCE_ENTITY
         }
     }
 
@@ -55,8 +67,8 @@ class GoToRepoIntention : PsiElementBaseIntentionAction() {
         val psiFacade = JavaPsiFacade.getInstance(project)
 
         val repoBases = listOf(
-            "org.springframework.data.repository.CrudRepository",
-            "org.springframework.data.jpa.repository.JpaRepository"
+            CRUD,
+            JPA
         )
 
         val repoCandidates = repoBases.flatMap { fqName ->
@@ -76,8 +88,8 @@ class GoToRepoIntention : PsiElementBaseIntentionAction() {
             .filterIsInstance<PsiClassType>()
             .filter {
                 val resolved = it.resolve()?.qualifiedName
-                resolved == "org.springframework.data.repository.CrudRepository" ||
-                        resolved == "org.springframework.data.jpa.repository.JpaRepository"
+                resolved == CRUD ||
+                        resolved == JPA
             }
             .mapNotNull { psiClassType ->
                 psiClassType.parameters.firstOrNull() as? PsiClassType

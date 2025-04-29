@@ -50,16 +50,15 @@ class GoToEntityByNameIntention : PsiElementBaseIntentionAction() {
         return null
     }
 
-    private val JAKARTA = "jakarta.persistence.Table"
-    private val JAVAX = "javax.persistence.Table"
+
 
     private fun findEntitiesByName(project: Project, entityName: String): List<PsiClass> {
         val scope = GlobalSearchScope.allScope(project)
 
         val javaPsiFacade = JavaPsiFacade.getInstance(project)
         val entityAnnotations = listOfNotNull(
-            javaPsiFacade.findClass(JAKARTA, scope),
-            javaPsiFacade.findClass(JAVAX, scope)
+            javaPsiFacade.findClass(JAKARTA_TABLE, scope),
+            javaPsiFacade.findClass(JAVAX_TABLE, scope)
         )
 
         val annotatedClasses = entityAnnotations.flatMap { annotationClass ->
@@ -67,8 +66,8 @@ class GoToEntityByNameIntention : PsiElementBaseIntentionAction() {
         }
 
         return annotatedClasses.filter { psiClass ->
-            val annotation = psiClass.getAnnotation(JAKARTA)
-                ?: psiClass.getAnnotation(JAVAX)
+            val annotation = psiClass.getAnnotation(JAKARTA_TABLE)
+                ?: psiClass.getAnnotation(JAVAX_TABLE)
             val nameValue = annotation?.findAttributeValue("name")?.text?.removeSurrounding("\"")
             nameValue == entityName
         }
