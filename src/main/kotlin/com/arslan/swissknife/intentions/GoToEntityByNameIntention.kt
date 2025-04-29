@@ -1,5 +1,7 @@
 package com.arslan.swissknife.intentions
 
+import com.arslan.swissknife.ui.FileResultDialog
+import com.intellij.codeInsight.hint.HintManager
 import com.intellij.codeInsight.intention.PsiElementBaseIntentionAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
@@ -9,6 +11,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiIdentifier
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.searches.AnnotatedElementsSearch
+import com.intellij.psi.util.PsiUtilCore
 
 class GoToEntityByNameIntention : PsiElementBaseIntentionAction() {
 
@@ -22,8 +25,22 @@ class GoToEntityByNameIntention : PsiElementBaseIntentionAction() {
 
     override fun invoke(project: Project, editor: Editor?, element: PsiElement) {
         val word = getWordAtElement(element) ?: return
-        val entityClass = findEntityClassByName(project, word) ?: return
-        entityClass.navigate(true)
+        invoke(project, editor, word)
+    }
+
+    fun invoke(project: Project, editor: Editor?, word: String) {
+        val entities = findEntitiesByName(project, word) ?: return
+        when {
+            entities.isEmpty() -> {
+                HintManager.getInstance().showErrorHint(editor!!, "Entity not found: $word")
+            }
+            entities.size == 1 -> {
+                entities.first().navigate(true)
+            }
+            else -> {
+                FileResultDialog(project, entities.mapNotNull(PsiUtilCore::getVirtualFile), "Go to entity", "Go to entity").show()
+            }
+        }
     }
 
     private fun getWordAtElement(element: PsiElement): String? {
@@ -33,23 +50,25 @@ class GoToEntityByNameIntention : PsiElementBaseIntentionAction() {
         return null
     }
 
-    private fun findEntityClassByName(project: Project, entityName: String): PsiClass? {
+    private val JAKARTA = "jakarta.persistence.Table"
+    private val JAVAX = "javax.persistence.Table"
+
+    private fun findEntitiesByName(project: Project, entityName: String): List<PsiClass> {
         val scope = GlobalSearchScope.allScope(project)
 
-        // Search @Entity classes
         val javaPsiFacade = JavaPsiFacade.getInstance(project)
         val entityAnnotations = listOfNotNull(
-            javaPsiFacade.findClass("jakarta.persistence.Entity", scope),
-            javaPsiFacade.findClass("javax.persistence.Entity", scope)
+            javaPsiFacade.findClass(JAKARTA, scope),
+            javaPsiFacade.findClass(JAVAX, scope)
         )
 
         val annotatedClasses = entityAnnotations.flatMap { annotationClass ->
             AnnotatedElementsSearch.searchPsiClasses(annotationClass, scope).toList()
         }
 
-        return annotatedClasses.firstOrNull { psiClass ->
-            val annotation = psiClass.getAnnotation("jakarta.persistence.Entity")
-                ?: psiClass.getAnnotation("javax.persistence.Entity")
+        return annotatedClasses.filter { psiClass ->
+            val annotation = psiClass.getAnnotation(JAKARTA)
+                ?: psiClass.getAnnotation(JAVAX)
             val nameValue = annotation?.findAttributeValue("name")?.text?.removeSurrounding("\"")
             nameValue == entityName
         }
