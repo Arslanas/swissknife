@@ -1,5 +1,6 @@
 
 ## To do
+1. Go to entity could return multiple results for same repo class, need to dedup it.
 1. implement remember INTENTION - store selected in idea, on click do show text in non modal window and allow to select and copy into clipboard. Show the recent on top. Add clear all func. 
 1. open Jira on commit right click
 1. open changelog, give a list ordered - ?
