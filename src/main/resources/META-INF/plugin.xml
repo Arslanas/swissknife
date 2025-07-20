@@ -210,12 +210,12 @@
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </group>
 
-        <action id="OpenGitLabMR"
-                class="com.arslan.swissknife.actions.OpenGitLabMRAction"
-                text="Open GitLab MR"
-                description="Open the associated GitLab Merge Request in a browser">
-            <add-to-group group-id="Vcs.Log.ContextMenu" anchor="first"/>
-        </action>
+<!--        <action id="OpenGitLabMR"-->
+<!--                class="com.arslan.swissknife.actions.OpenGitLabMRAction"-->
+<!--                text="Open GitLab MR"-->
+<!--                description="Open the associated GitLab Merge Request in a browser">-->
+<!--            <add-to-group group-id="Vcs.Log.ContextMenu" anchor="first"/>-->
+<!--        </action>-->
 
     </actions>
 
