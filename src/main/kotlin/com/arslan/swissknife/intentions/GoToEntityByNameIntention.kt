@@ -29,7 +29,7 @@ class GoToEntityByNameIntention : PsiElementBaseIntentionAction() {
     }
 
     fun invoke(project: Project, editor: Editor?, word: String) {
-        val entities = findEntitiesByName(project, word) ?: return
+        val entities = findEntitiesByName(project, word)
         when {
             entities.isEmpty() -> {
                 HintManager.getInstance().showErrorHint(editor!!, "Entity not found: $word")

@@ -24,7 +24,7 @@ class ShowSaveIntention : IntentionAction {
         val psiClass = PsiTreeUtil.getParentOfType(element, PsiClass::class.java) ?: return false
 
         val isJPAInterface = psiClass.interfaces.any {
-            it.qualifiedName?.contains("CrudRepository") == true
+            return listOf("CrudRepository",  "JpaRepository").contains(it.qualifiedName)
         }
 
         return isJPAInterface

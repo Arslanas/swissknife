@@ -29,7 +29,7 @@ class SearchKeywordInFilesOld : AnAction() {
         val visited = HashSet<VirtualFile>()
 
         psiSearchHelper.processElementsWithWord(
-            { element: PsiElement, offset: Int ->
+            { element: PsiElement, _: Int ->
                 val file = element.containingFile?.virtualFile
                 if (file != null) {
                     if (visited.contains(file)) return@processElementsWithWord true
