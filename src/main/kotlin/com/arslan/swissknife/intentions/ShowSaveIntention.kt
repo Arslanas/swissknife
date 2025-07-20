@@ -1,5 +1,6 @@
 package com.arslan.swissknife.intentions
 
+import com.intellij.codeInsight.codeVision.CodeVisionState.NotReady.result
 import com.intellij.codeInsight.intention.IntentionAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
@@ -24,7 +25,7 @@ class ShowSaveIntention : IntentionAction {
         val psiClass = PsiTreeUtil.getParentOfType(element, PsiClass::class.java) ?: return false
 
         val isJPAInterface = psiClass.interfaces.any {
-            return listOf("CrudRepository",  "JpaRepository").contains(it.qualifiedName)
+            return JPA_REPOSITORY == it.qualifiedName || CRUD_REPOSITORY == it.qualifiedName
         }
 
         return isJPAInterface
