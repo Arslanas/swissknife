@@ -1,9 +1,12 @@
 package com.arslan.swissknife.intentions
 
 import com.arslan.swissknife.ui.FileResultDialog
+import com.intellij.codeInsight.hint.HintManager
 import com.intellij.codeInsight.intention.PsiElementBaseIntentionAction
 import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.application.EDT
 import com.intellij.openapi.editor.Editor
+import com.intellij.openapi.editor.ex.EditorEx
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
 import com.intellij.psi.JavaPsiFacade
@@ -15,6 +18,9 @@ import com.intellij.psi.search.PsiShortNamesCache
 import com.intellij.psi.search.searches.ClassInheritorsSearch
 import com.intellij.psi.util.PsiUtilCore
 import com.intellij.util.PsiNavigateUtil
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class GoToUnitTestIntention : PsiElementBaseIntentionAction() {
 
@@ -34,9 +40,10 @@ class GoToUnitTestIntention : PsiElementBaseIntentionAction() {
         val candidates = findTestClassFor(project, psiClass)
 
         when {
-            candidates.isEmpty() -> Messages.showInfoMessage("There are no test classes", "Not Found")
+            candidates.isEmpty() && (editor as? EditorEx) != null -> HintManager.getInstance().showErrorHint(editor, "There are no test classes")
+            candidates.isEmpty() -> return
             candidates.size == 1 -> ApplicationManager.getApplication().invokeLater { PsiNavigateUtil.navigate(candidates.first()) }
-            else -> FileResultDialog(project, candidates.mapNotNull(PsiUtilCore::getVirtualFile), "Go to repo", "Go to repo").show()
+            else -> CoroutineScope(Dispatchers.EDT).launch { FileResultDialog(project, candidates.mapNotNull(PsiUtilCore::getVirtualFile), "Go to repo", "Go to repo").show()}
         }
     }
 
