@@ -43,7 +43,7 @@ class GoToUnitTestIntention : PsiElementBaseIntentionAction() {
             candidates.isEmpty() && (editor as? EditorEx) != null -> HintManager.getInstance().showErrorHint(editor, "There are no test classes")
             candidates.isEmpty() -> return
             candidates.size == 1 -> ApplicationManager.getApplication().invokeLater { PsiNavigateUtil.navigate(candidates.first()) }
-            else -> CoroutineScope(Dispatchers.EDT).launch { FileResultDialog(project, candidates.mapNotNull(PsiUtilCore::getVirtualFile), "Go to repo", "Go to repo").show()}
+            else -> FileResultDialog(project, candidates.mapNotNull(PsiUtilCore::getVirtualFile), "Go to repo", "Go to repo").show()
         }
     }
 
