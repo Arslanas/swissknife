@@ -1,6 +1,8 @@
 
 ## To do
+1. open jira in UI. take jira number from the branch name. Keep URL base as configurable param
 1. Open dialog to select component which needs to be included in the release yml. After selected, yml file + pom are updated.  
+1. Rebase on develop  
 1. transformer for multi caret
 1. Go to entity could return multiple results for same repo class, need to dedup it.
 1. implement remember INTENTION - store selected in idea, on click do show text in non modal window and allow to select and copy into clipboard. Show the recent on top. Add clear all func. 

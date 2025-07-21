@@ -22,19 +22,12 @@ class SelectReleaseComponentDialog(val project: Project?, val components: Map<St
 
     override fun createCenterPanel(): JComponent {
         return panel() {
-            row("Target branch"){
+            row("Component"){
                 comboBox(components.keys, null)
                     .align(Align.FILL)
                     .bindItem({ targetComponent}, {targetComponent = it })
             }
         }
-    }
-
-    override fun doOKAction() {
-        super.doOKAction()
-        val currentVersion = components.get(targetComponent)!!
-        // get version properly from pom.xml file
-        targetComponent?.let { InputNextVersionDialog(project, it, currentVersion).show() }
     }
 
 }

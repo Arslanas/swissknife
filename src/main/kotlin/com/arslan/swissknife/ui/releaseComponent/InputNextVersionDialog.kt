@@ -9,11 +9,20 @@ import javax.swing.*
 
 class InputNextVersionDialog(val project: Project?, val component: String, val currentVersion : String) : DialogWrapper(project) {
 
-    var nextVersion: String = currentVersion
+    var nextVersion: String = getNextVersion(currentVersion)
 
     init {
         title = "Input next version"
         init()
+    }
+
+    private fun getNextVersion(currentVersion: String): String {
+        val num = currentVersion.replace("-SNAPSHOT", "")
+        val splits = num.split(".").toMutableList()
+        val lastIndex = splits.size - 1
+        splits[lastIndex] = Integer.parseInt(splits[lastIndex]).inc().toString()
+
+        return splits.joinToString(".") + "-SNAPSHOT"
     }
 
 
@@ -34,11 +43,6 @@ class InputNextVersionDialog(val project: Project?, val component: String, val c
                     .bindText({ nextVersion}, {nextVersion = it})
             }
         }
-    }
-
-    override fun doOKAction() {
-        super.doOKAction()
-        ConfirmReleaseComponentDialog(project, component, currentVersion, nextVersion).show()
     }
 
 }

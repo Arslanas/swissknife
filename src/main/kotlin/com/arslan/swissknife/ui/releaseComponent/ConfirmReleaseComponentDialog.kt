@@ -9,17 +9,10 @@ import javax.swing.*
 
 class ConfirmReleaseComponentDialog(val project: Project?, val component: String, val currentVersion : String, val nextVersion: String) : DialogWrapper(project) {
 
-    var content: String = ""
 
     init {
-        content = """
-            Component : ${component}
-            Next version : ${nextVersion}
-            Prev version : ${currentVersion}
-        """.trimIndent()
         init()
     }
-
 
     override fun getDimensionServiceKey(): String? {
         return "SelectComponentDialog"
@@ -27,15 +20,15 @@ class ConfirmReleaseComponentDialog(val project: Project?, val component: String
 
     override fun createCenterPanel(): JComponent {
         return panel() {
-            row("Content"){
-                label(content).bold()
+            row("Component"){
+                label(component).bold()
+            }
+            row("Current version"){
+                label(currentVersion).bold()
+            }
+            row("New version"){
+                label(nextVersion).bold()
             }
         }
     }
-
-    override fun doOKAction() {
-        super.doOKAction()
-        // perform Update
-    }
-
 }
