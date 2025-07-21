@@ -95,6 +95,13 @@
                     description="Settings">
             </action>
 
+            <action
+                    id="com.arslan.swissknife.actions.AddReleaseComponentAction"
+                    class="com.arslan.swissknife.actions.AddReleaseComponentAction"
+                    text="Add Release Component"
+                    description="Add release component">
+            </action>
+
             <separator/>
 
             <action
