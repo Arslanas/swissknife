@@ -76,7 +76,9 @@ class AddReleaseComponentAction : AnAction() {
 
         updatePomVersion(project, file, nextVersion)
 
-        // Update Core component versions (not all components need update of core version)
+        // Update of Core component is complex as not all components need update of core version.
+        // If Core component selected then need to choose which dependent components need to update core version
+        // Also need to provide refresh of update of core version as components could be added later
     }
 
     data class PomData(
