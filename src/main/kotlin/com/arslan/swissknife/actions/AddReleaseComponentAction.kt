@@ -79,6 +79,8 @@ class AddReleaseComponentAction : AnAction() {
         // Update of Core component is complex as not all components need update of core version.
         // If Core component selected then need to choose which dependent components need to update core version
         // Also need to provide refresh of update of core version as components could be added later
+
+        // Update of database component : read latest folder version, create new folder with new changelog file, update yml
     }
 
     data class PomData(
