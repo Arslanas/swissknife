@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
+@Deprecated("This function practically is not used")
 class CreateMrAction : AnAction(){
 
     override fun actionPerformed(e: AnActionEvent) {

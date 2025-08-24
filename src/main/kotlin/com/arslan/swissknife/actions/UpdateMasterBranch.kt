@@ -16,6 +16,7 @@ import git4idea.repo.GitRepositoryManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.*
 
+@Deprecated("This function practically is not used")
 class UpdateMasterBranch : AnAction(){
 
     override fun actionPerformed(e: AnActionEvent) {

@@ -118,12 +118,12 @@
                     description="Create new release branch with specific Jira number">
             </action>
 
-            <action
-                    id="com.arslan.swissknife.actions.UpdateMasterBranch"
-                    class="com.arslan.swissknife.actions.UpdateMasterBranch"
-                    text="Update Master Branch"
-                    description="Update master branch">
-            </action>
+<!--            <action-->
+<!--                    id="com.arslan.swissknife.actions.UpdateMasterBranch"-->
+<!--                    class="com.arslan.swissknife.actions.UpdateMasterBranch"-->
+<!--                    text="Update Master Branch"-->
+<!--                    description="Update master branch">-->
+<!--            </action>-->
 
             <action
                     id="com.arslan.swissknife.actions.RebaseUponMasterBranch"
@@ -139,12 +139,12 @@
                     description="Rebase on Master">
             </action>
 
-            <action
-                    id="com.arslan.swissknife.actions.CreateMrAction"
-                    class="com.arslan.swissknife.actions.CreateMrAction"
-                    text="Create MR"
-                    description="Create MR">
-            </action>
+<!--            <action-->
+<!--                    id="com.arslan.swissknife.actions.CreateMrAction"-->
+<!--                    class="com.arslan.swissknife.actions.CreateMrAction"-->
+<!--                    text="Create MR"-->
+<!--                    description="Create MR">-->
+<!--            </action>-->
 
             <separator/>
 
@@ -162,26 +162,25 @@
                     description="Find DIff">
             </action>
 
+<!--            <separator/>-->
+
+<!--            <action-->
+<!--                    id="com.arslan.swissknife.actions.CreateModifyCodeAction"-->
+<!--                    class="com.arslan.swissknife.actions.CreateModifyCodeAction"-->
+<!--                    text="Create/Modify Sql Query"-->
+<!--                    description="Create/Modify sql query">-->
+<!--            </action>-->
+
+<!--            <group-->
+<!--                    id = "com.arslan.swissknife.actions.InsertCodeActionGroup"-->
+<!--                    class= "com.arslan.swissknife.actions.InsertCodeActionGroup"-->
+<!--                    text="Insert Code"-->
+<!--                    description="Insert code"-->
+<!--                    popup="true"-->
+<!--            />-->
+
+
             <separator/>
-
-            <action
-                    id="com.arslan.swissknife.actions.CreateModifyCodeAction"
-                    class="com.arslan.swissknife.actions.CreateModifyCodeAction"
-                    text="Create/Modify Sql Query"
-                    description="Create/Modify sql query">
-            </action>
-
-            <group
-                    id = "com.arslan.swissknife.actions.InsertCodeActionGroup"
-                    class= "com.arslan.swissknife.actions.InsertCodeActionGroup"
-                    text="Insert Code"
-                    description="Insert code"
-                    popup="true"
-            />
-
-            <separator/>
-
-
             <action
                     id="com.arslan.swissknife.actions.transform.CreateModifyTransformer"
                     class="com.arslan.swissknife.actions.transform.CreateModifyTransformer"
