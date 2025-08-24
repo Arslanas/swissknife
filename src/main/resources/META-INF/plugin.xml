@@ -156,6 +156,13 @@
             </action>
 
             <action
+                    id="com.arslan.swissknife.actions.BrowseJira"
+                    class="com.arslan.swissknife.actions.BrowseJira"
+                    text="Browse Jira"
+                    description="Browse jira">
+            </action>
+
+            <action
                     id="com.arslan.swissknife.actions.FindDiff"
                     class="com.arslan.swissknife.actions.FindDiff"
                     text="Find Diff"

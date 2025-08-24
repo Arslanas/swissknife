@@ -1,9 +1,10 @@
 package com.arslan.swissknife.actions
 
+import com.arslan.swissknife.enum.SettingsEnum
 import com.arslan.swissknife.util.CommonUtil
+import com.arslan.swissknife.util.CommonUtil.Companion.getBranchOptions
+import com.arslan.swissknife.util.CommonUtil.Companion.getSetting
 import com.arslan.swissknife.util.CommonUtil.Companion.selectSourceBranch
-import com.arslan.swissknife.util.Constants.Companion.BRANCH_OPTIONS
-import com.arslan.swissknife.util.SourceBranch
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.progress.ProgressIndicator
@@ -37,12 +38,14 @@ class CreateFeatureBranch : AnAction(){
             return
         }
 
+        val branchOptions = getBranchOptions()
 
-        val optionId = selectSourceBranch(project) ?: return
+        val optionId = selectSourceBranch(project, branchOptions) ?: return
 
-        val sourceBranch = BRANCH_OPTIONS[optionId]
+        val sourceBranch = branchOptions[optionId]
         val suffix = if (sourceBranch.needSuffix) "-${sourceBranch.name}" else ""
-        val branchName =  "feature/TREASPROD-${input.trim()}${suffix}"
+        val jiraProjectName = getSetting(SettingsEnum.JIRA_PROJECT_NAME)
+        val branchName =  "feature/${jiraProjectName}-${input.trim()}${suffix}"
 
         val repository = GitRepositoryManager.getInstance(project).repositories.stream().findFirst().orElse(null)
         if (repository == null) {

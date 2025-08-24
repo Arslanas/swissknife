@@ -1,8 +1,8 @@
 package com.arslan.swissknife.actions
 
 import com.arslan.swissknife.util.CommonUtil.Companion.consolePrinter
+import com.arslan.swissknife.util.CommonUtil.Companion.getBranchOptions
 import com.arslan.swissknife.util.CommonUtil.Companion.selectSourceBranch
-import com.arslan.swissknife.util.Constants.Companion.BRANCH_OPTIONS
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.application.EDT
@@ -31,9 +31,9 @@ class RebaseUponMasterBranch : AnAction(){
             Messages.showErrorDialog("No project found", "Error")
             return
         }
-
-        val optionId = selectSourceBranch(project) ?: return
-        val sourceBranch = BRANCH_OPTIONS[optionId]
+        val branchOptions = getBranchOptions();
+        val optionId = selectSourceBranch(project, branchOptions ) ?: return
+        val sourceBranch = branchOptions[optionId]
         val sourceBranchName = sourceBranch.name
 
         val repository = GitRepositoryManager.getInstance(project).repositories.stream().findFirst().orElse(null)

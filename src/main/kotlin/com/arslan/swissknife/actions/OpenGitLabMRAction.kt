@@ -1,6 +1,5 @@
 package com.arslan.swissknife.actions
 
-import com.intellij.ide.BrowserUtil
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.ui.Messages
@@ -8,6 +7,7 @@ import com.intellij.vcs.log.VcsLogDataKeys
 import com.intellij.vcs.log.data.AbstractDataGetter.Companion.getCommitDetails
 import com.intellij.vcs.log.data.VcsLogData
 
+@Deprecated("Not used anymore")
 class OpenGitLabMRAction : AnAction("Open Merge Request on GitLab") {
 
     override fun update(e: AnActionEvent) {

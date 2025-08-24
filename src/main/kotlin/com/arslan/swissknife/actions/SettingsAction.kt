@@ -24,7 +24,7 @@ class SettingsAction : AnAction(){
         val service = service<CapgSettings>()
         val commonSettingsMap = service.getCommonSettingsMap()
 
-        val dialog = ManageSettingsDialog(project, commonSettingsMap.map { SettingDTO(it.key, it.value) }.toList())
+        val dialog = ManageSettingsDialog(project, commonSettingsMap.map { SettingDTO(it.key, it.value) }.toList().sortedBy { it.key })
 
         dialog.show()
     }

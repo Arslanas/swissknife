@@ -1,7 +1,11 @@
 package com.arslan.swissknife.util
 
-import com.arslan.swissknife.util.Constants.Companion.BRANCH_OPTIONS
+import com.arslan.swissknife.dto.SourceBranch
+import com.arslan.swissknife.enum.SettingsEnum
+import com.arslan.swissknife.state.CapgSettings
+import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.application.EDT
+import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
 import git4idea.commands.Git
@@ -17,6 +21,13 @@ class CommonUtil {
     companion object {
         val consolePrinter = GitLineHandlerListener { line, _ -> println(line) }
 
+        fun getProject(e: AnActionEvent): Project?{
+            return e.project ?: run{
+                Messages.showErrorDialog("No project found", "Error")
+                return null
+            }
+        }
+
         fun showError(project: Project, errorMessage: String) {
             CoroutineScope(Dispatchers.EDT).launch {
                 Messages.showErrorDialog(
@@ -27,9 +38,23 @@ class CommonUtil {
             }
         }
 
-        fun selectSourceBranch(project: Project): Int?{
+        fun getBranchOptions(): List<SourceBranch> {
+            val settings = service<CapgSettings>()
+            val rawString = settings.get(SettingsEnum.BRANCH_OPTIONS)?: return emptyList()
+            return rawString.split(',').map{
+                val pair = it.split(':')
+                SourceBranch(pair[0], pair[1].lowercase() == "true")
+            }
+        }
+
+        fun getSetting(setting: SettingsEnum): String {
+            val settings = service<CapgSettings>()
+            return settings.get(setting)?: return ""
+        }
+
+        fun selectSourceBranch(project: Project, branchOptions: List<SourceBranch>): Int?{
             val optionId = Messages.showDialog(project, "Choose source branch",
-                "",  BRANCH_OPTIONS.map { it.name }.toTypedArray(), 0, Messages.getInformationIcon())
+                "",  branchOptions.map { it.name }.toTypedArray(), -1, Messages.getInformationIcon())
             if (optionId < 0) return null
             return optionId
         }

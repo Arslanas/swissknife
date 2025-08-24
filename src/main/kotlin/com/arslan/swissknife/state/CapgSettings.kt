@@ -22,6 +22,13 @@ class CapgSettings : PersistentStateComponent<CapgSettings.State> {
 
     override fun loadState(state: State) {
         settings = state
+
+        // Ensure all enum keys exist, even after schema change
+        for (enum in SettingsEnum.entries) {
+            if (!settings.common.containsKey(enum.key)) {
+                settings.common[enum.key] = ""
+            }
+        }
     }
 
 
