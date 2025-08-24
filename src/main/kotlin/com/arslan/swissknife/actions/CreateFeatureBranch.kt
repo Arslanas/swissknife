@@ -34,9 +34,23 @@ class CreateFeatureBranch : AnAction(){
             return
         }
 
+        val options = arrayOf(
+            "master",
+            "developer",
+            "capg-mssql.2025",
+        )
+        val sourceBranchIdx = Messages.showDialog(project, "Choose source branch",
+            "",  options, 0, Messages.getInformationIcon())
+        if (sourceBranchIdx < 0) {
+            return
+        }
 
 
-        val branchName = "feature/TREASPROD-${input.trim()}"
+        val sourceBranch = options[sourceBranchIdx]
+        val noNeedSuffix = sourceBranch.equals("master", ignoreCase = true) or sourceBranch.equals("developer", ignoreCase = true)
+        val suffix = if (noNeedSuffix) "" else "-${sourceBranch}"
+
+        val branchName =  "feature/TREASPROD-${input.trim()}${suffix}"
 
         val repository = GitRepositoryManager.getInstance(project).repositories.stream().findFirst().orElse(null)
         if (repository == null) {
@@ -57,7 +71,7 @@ class CreateFeatureBranch : AnAction(){
             object : Task.Backgroundable(project, "Creating Branch $branchName", false
         ){
                 override fun run(indicator: ProgressIndicator) {
-                    runOperation(git, repository, remote, branchName, indicator, project)
+                    runOperation(git, repository, remote, branchName, indicator, project, sourceBranch)
                 }
             }
         )
@@ -67,16 +81,17 @@ class CreateFeatureBranch : AnAction(){
         git: Git,
         repository: GitRepository,
         remote: GitRemote,
-        branchName: String,
+        newBranchName: String,
         indicator: ProgressIndicator,
-        project: Project
+        project: Project,
+        sourceBranch: String
     ) {
-        indicator.text = "Fetching latest changes and updating master branch"
-        if ("master".equals(repository.currentBranch?.name)){
-            println("Already on master branch, so just merge the remote one")
-            git.merge(repository, "origin/master", null, CommonUtil.consolePrinter)
+        indicator.text = "Fetching latest changes and updating ${sourceBranch} branch"
+        if (sourceBranch.equals(repository.currentBranch?.name)){
+            println("Already on ${sourceBranch} branch, so just merge the remote one")
+            git.merge(repository, "origin/${sourceBranch}", null, CommonUtil.consolePrinter)
         } else {
-            val fetchResult = git.fetch(repository, remote, listOf(CommonUtil.consolePrinter), "master:master")
+            val fetchResult = git.fetch(repository, remote, listOf(CommonUtil.consolePrinter), "${sourceBranch}:${sourceBranch}")
             if (!fetchResult.success()) {
                 CommonUtil.showError(project, "Failed to fetch the latest changes: ${fetchResult.getErrorOutputAsJoinedString()}")
                 return;
@@ -84,10 +99,10 @@ class CreateFeatureBranch : AnAction(){
         }
 
 
-        indicator.text = "Checkout new branch ${branchName}"
-        val checkoutNewBranch = git.checkout(repository, "master", branchName, false, false, CommonUtil.consolePrinter )
+        indicator.text = "Checkout new branch ${newBranchName}"
+        val checkoutNewBranch = git.checkout(repository, sourceBranch, newBranchName, false, false, CommonUtil.consolePrinter )
         if (!checkoutNewBranch.success()) {
-            CommonUtil.showError(project, "Failed to checkout new branch ${branchName}: ${checkoutNewBranch.getErrorOutputAsJoinedString()}")
+            CommonUtil.showError(project, "Failed to checkout new branch ${newBranchName}: ${checkoutNewBranch.getErrorOutputAsJoinedString()}")
             return;
         }
 
