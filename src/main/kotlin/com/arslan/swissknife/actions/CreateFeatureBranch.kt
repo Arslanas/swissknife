@@ -15,6 +15,11 @@ import git4idea.repo.GitRepositoryManager
 
 class CreateFeatureBranch : AnAction(){
 
+    class SourceBranch(
+        val name: String,
+        val needSuffix: Boolean
+    ){}
+
     override fun actionPerformed(e: AnActionEvent) {
 
         val project = e.project ?: run{
@@ -34,22 +39,21 @@ class CreateFeatureBranch : AnAction(){
             return
         }
 
+
         val options = arrayOf(
-            "master",
-            "developer",
-            "capg-mssql.2025",
+            SourceBranch("master", false),
+            SourceBranch("developer", false),
+            SourceBranch("capg-mssql.2025", false)
         )
         val sourceBranchIdx = Messages.showDialog(project, "Choose source branch",
-            "",  options, 0, Messages.getInformationIcon())
+            "",  options.map { it.name }.toTypedArray(), 0, Messages.getInformationIcon())
         if (sourceBranchIdx < 0) {
             return
         }
 
 
         val sourceBranch = options[sourceBranchIdx]
-        val noNeedSuffix = sourceBranch.equals("master", ignoreCase = true) or sourceBranch.equals("developer", ignoreCase = true)
-        val suffix = if (noNeedSuffix) "" else "-${sourceBranch}"
-
+        val suffix = if (sourceBranch.needSuffix) "-${sourceBranch}" else ""
         val branchName =  "feature/TREASPROD-${input.trim()}${suffix}"
 
         val repository = GitRepositoryManager.getInstance(project).repositories.stream().findFirst().orElse(null)
@@ -71,7 +75,7 @@ class CreateFeatureBranch : AnAction(){
             object : Task.Backgroundable(project, "Creating Branch $branchName", false
         ){
                 override fun run(indicator: ProgressIndicator) {
-                    runOperation(git, repository, remote, branchName, indicator, project, sourceBranch)
+                    runOperation(git, repository, remote, branchName, indicator, project, sourceBranch.name)
                 }
             }
         )
