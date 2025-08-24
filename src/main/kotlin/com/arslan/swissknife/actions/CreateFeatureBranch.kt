@@ -43,7 +43,7 @@ class CreateFeatureBranch : AnAction(){
         val options = arrayOf(
             SourceBranch("master", false),
             SourceBranch("developer", false),
-            SourceBranch("capg-mssql.2025", false)
+            SourceBranch("capg-mssql.2025", true)
         )
         val sourceBranchIdx = Messages.showDialog(project, "Choose source branch",
             "",  options.map { it.name }.toTypedArray(), 0, Messages.getInformationIcon())
