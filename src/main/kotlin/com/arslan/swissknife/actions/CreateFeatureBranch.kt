@@ -45,14 +45,14 @@ class CreateFeatureBranch : AnAction(){
             SourceBranch("developer", false),
             SourceBranch("capg-mssql.2025", true)
         )
-        val sourceBranchIdx = Messages.showDialog(project, "Choose source branch",
+        val optionId = Messages.showDialog(project, "Choose source branch",
             "",  options.map { it.name }.toTypedArray(), 0, Messages.getInformationIcon())
-        if (sourceBranchIdx < 0) {
+        if (optionId < 0) {
             return
         }
 
 
-        val sourceBranch = options[sourceBranchIdx]
+        val sourceBranch = options[optionId]
         val suffix = if (sourceBranch.needSuffix) "-${sourceBranch.name}" else ""
         val branchName =  "feature/TREASPROD-${input.trim()}${suffix}"
 
