@@ -53,7 +53,7 @@ class CreateFeatureBranch : AnAction(){
 
 
         val sourceBranch = options[sourceBranchIdx]
-        val suffix = if (sourceBranch.needSuffix) "-${sourceBranch}" else ""
+        val suffix = if (sourceBranch.needSuffix) "-${sourceBranch.name}" else ""
         val branchName =  "feature/TREASPROD-${input.trim()}${suffix}"
 
         val repository = GitRepositoryManager.getInstance(project).repositories.stream().findFirst().orElse(null)
