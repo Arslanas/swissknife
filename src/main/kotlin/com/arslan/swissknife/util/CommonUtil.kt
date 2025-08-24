@@ -1,5 +1,6 @@
 package com.arslan.swissknife.util
 
+import com.arslan.swissknife.util.Constants.Companion.BRANCH_OPTIONS
 import com.intellij.openapi.application.EDT
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
@@ -24,6 +25,13 @@ class CommonUtil {
                     "Error"
                 );
             }
+        }
+
+        fun selectSourceBranch(project: Project): Int?{
+            val optionId = Messages.showDialog(project, "Choose source branch",
+                "",  BRANCH_OPTIONS.map { it.name }.toTypedArray(), 0, Messages.getInformationIcon())
+            if (optionId < 0) return null
+            return optionId
         }
 
         fun getLastCommitMessage(project: Project, repository: GitRepository): String{

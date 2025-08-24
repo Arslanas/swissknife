@@ -1,6 +1,9 @@
 package com.arslan.swissknife.actions
 
 import com.arslan.swissknife.util.CommonUtil
+import com.arslan.swissknife.util.CommonUtil.Companion.selectSourceBranch
+import com.arslan.swissknife.util.Constants.Companion.BRANCH_OPTIONS
+import com.arslan.swissknife.util.SourceBranch
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.progress.ProgressIndicator
@@ -14,11 +17,6 @@ import git4idea.repo.GitRepository
 import git4idea.repo.GitRepositoryManager
 
 class CreateFeatureBranch : AnAction(){
-
-    class SourceBranch(
-        val name: String,
-        val needSuffix: Boolean
-    ){}
 
     override fun actionPerformed(e: AnActionEvent) {
 
@@ -40,19 +38,9 @@ class CreateFeatureBranch : AnAction(){
         }
 
 
-        val options = arrayOf(
-            SourceBranch("master", false),
-            SourceBranch("developer", false),
-            SourceBranch("capg-mssql.2025", true)
-        )
-        val optionId = Messages.showDialog(project, "Choose source branch",
-            "",  options.map { it.name }.toTypedArray(), 0, Messages.getInformationIcon())
-        if (optionId < 0) {
-            return
-        }
+        val optionId = selectSourceBranch(project) ?: return
 
-
-        val sourceBranch = options[optionId]
+        val sourceBranch = BRANCH_OPTIONS[optionId]
         val suffix = if (sourceBranch.needSuffix) "-${sourceBranch.name}" else ""
         val branchName =  "feature/TREASPROD-${input.trim()}${suffix}"
 
