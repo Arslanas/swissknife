@@ -1,5 +1,6 @@
-package com.arslan.swissknife.actions
+package com.arslan.swissknife.actions.git
 
+import com.arslan.swissknife.dto.SourceBranch
 import com.arslan.swissknife.enum.SettingsEnum
 import com.arslan.swissknife.util.CommonUtil
 import com.arslan.swissknife.util.CommonUtil.Companion.getBranchOptions
@@ -43,9 +44,7 @@ class CreateFeatureBranch : AnAction(){
         val optionId = selectSourceBranch(project, branchOptions) ?: return
 
         val sourceBranch = branchOptions[optionId]
-        val suffix = if (sourceBranch.needSuffix) "-${sourceBranch.name}" else ""
-        val jiraProjectName = getSetting(SettingsEnum.JIRA_PROJECT_NAME)
-        val branchName =  "feature/${jiraProjectName}-${input.trim()}${suffix}"
+        val newBranchName = getNewBranchName(sourceBranch, input)
 
         val repository = GitRepositoryManager.getInstance(project).repositories.stream().findFirst().orElse(null)
         if (repository == null) {
@@ -63,13 +62,28 @@ class CreateFeatureBranch : AnAction(){
 
 
         ProgressManager.getInstance().run(
-            object : Task.Backgroundable(project, "Creating Branch $branchName", false
+            object : Task.Backgroundable(project, "Creating Branch $newBranchName", false
         ){
                 override fun run(indicator: ProgressIndicator) {
-                    runOperation(git, repository, remote, branchName, indicator, project, sourceBranch.name)
+                    runOperation(git, repository, remote, newBranchName, indicator, project, sourceBranch.name)
                 }
             }
         )
+    }
+
+    private fun getNewBranchName(
+        sourceBranch: SourceBranch,
+        input: String
+    ): String {
+        val suffix = if (sourceBranch.needSuffix) {
+            val rawSourceBranchName = sourceBranch.name
+                .replace("feature/", "")
+                .replace("release/", "")
+            "-${rawSourceBranchName}"
+        } else ""
+        val jiraProjectName = getSetting(SettingsEnum.JIRA_PROJECT_NAME)
+        val branchName = "feature/${jiraProjectName}-${input.trim()}${suffix}"
+        return branchName
     }
 
     private fun runOperation(

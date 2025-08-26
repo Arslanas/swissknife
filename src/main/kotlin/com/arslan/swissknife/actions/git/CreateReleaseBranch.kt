@@ -1,4 +1,4 @@
-package com.arslan.swissknife.actions
+package com.arslan.swissknife.actions.git
 
 import com.arslan.swissknife.util.CommonUtil
 import com.intellij.openapi.actionSystem.AnAction

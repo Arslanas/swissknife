@@ -1,4 +1,4 @@
-package com.arslan.swissknife.actions
+package com.arslan.swissknife.actions.git
 
 import com.arslan.swissknife.enum.SettingsEnum
 import com.arslan.swissknife.state.CapgSettings

@@ -105,43 +105,43 @@
             <separator/>
 
             <action
-                    id="com.arslan.swissknife.actions.CreateFeatureBranch"
-                    class="com.arslan.swissknife.actions.CreateFeatureBranch"
-                    text="Create Jira Branch"
+                    id="com.arslan.swissknife.actions.git.CreateFeatureBranch"
+                    class="com.arslan.swissknife.actions.git.CreateFeatureBranch"
+                    text="Create Feature Branch"
                     description="Create new branch with specific Jira number">
             </action>
 
             <action
-                    id="com.arslan.swissknife.actions.CreateReleaseBranch"
-                    class="com.arslan.swissknife.actions.CreateReleaseBranch"
-                    text="Create Release Jira Branch"
+                    id="com.arslan.swissknife.actions.git.CreateReleaseBranch"
+                    class="com.arslan.swissknife.actions.git.CreateReleaseBranch"
+                    text="Create Release Branch"
                     description="Create new release branch with specific Jira number">
             </action>
 
 <!--            <action-->
-<!--                    id="com.arslan.swissknife.actions.UpdateMasterBranch"-->
-<!--                    class="com.arslan.swissknife.actions.UpdateMasterBranch"-->
+<!--                    id="com.arslan.swissknife.actions.git.UpdateMasterBranch"-->
+<!--                    class="com.arslan.swissknife.actions.git.UpdateMasterBranch"-->
 <!--                    text="Update Master Branch"-->
 <!--                    description="Update master branch">-->
 <!--            </action>-->
 
             <action
-                    id="com.arslan.swissknife.actions.RebaseUponMasterBranch"
-                    class="com.arslan.swissknife.actions.RebaseUponMasterBranch"
-                    text="Rebase on Master"
-                    description="Rebase on Master">
+                    id="com.arslan.swissknife.actions.git.RebaseUponMasterBranch"
+                    class="com.arslan.swissknife.actions.git.RebaseUponMasterBranch"
+                    text="Rebase on Feature"
+                    description="Rebase on Feature">
             </action>
 
             <action
-                    id="com.arslan.swissknife.actions.RebaseUponReleaseBranch"
-                    class="com.arslan.swissknife.actions.RebaseUponReleaseBranch"
+                    id="com.arslan.swissknife.actions.git.RebaseUponReleaseBranch"
+                    class="com.arslan.swissknife.actions.git.RebaseUponReleaseBranch"
                     text="Rebase on Release"
-                    description="Rebase on Master">
+                    description="Rebase on Release">
             </action>
 
 <!--            <action-->
-<!--                    id="com.arslan.swissknife.actions.CreateMrAction"-->
-<!--                    class="com.arslan.swissknife.actions.CreateMrAction"-->
+<!--                    id="com.arslan.swissknife.actions.git.CreateMrAction"-->
+<!--                    class="com.arslan.swissknife.actions.git.CreateMrAction"-->
 <!--                    text="Create MR"-->
 <!--                    description="Create MR">-->
 <!--            </action>-->
@@ -224,7 +224,7 @@
         </group>
 
 <!--        <action id="OpenGitLabMR"-->
-<!--                class="com.arslan.swissknife.actions.OpenGitLabMRAction"-->
+<!--                class="com.arslan.swissknife.actions.git.OpenGitLabMRAction"-->
 <!--                text="Open GitLab MR"-->
 <!--                description="Open the associated GitLab Merge Request in a browser">-->
 <!--            <add-to-group group-id="Vcs.Log.ContextMenu" anchor="first"/>-->
