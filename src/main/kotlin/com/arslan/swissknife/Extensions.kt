@@ -5,6 +5,7 @@ import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.progress.Task
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.ui.Messages
 import git4idea.commands.GitCommandResult
 
 fun GitCommandResult.requireSuccess(
@@ -40,3 +41,6 @@ fun Project.runBackgroundTask(
         }
     )
 }
+
+fun Project.confirm(message: String, title: String = "Confirmation"): Boolean =
+    Messages.showYesNoDialog(this, message, title, Messages.getQuestionIcon()) == Messages.YES

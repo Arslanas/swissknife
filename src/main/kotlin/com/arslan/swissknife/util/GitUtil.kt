@@ -1,11 +1,15 @@
 package com.arslan.swissknife.util
 
 import com.arslan.swissknife.enum.SettingsEnum
+import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
+import git4idea.branch.GitRebaseParams
 import git4idea.commands.Git
 import git4idea.commands.GitCommandResult
 import git4idea.commands.GitLineHandlerListener
+import git4idea.config.GitVersion
+import git4idea.rebase.GitRebaseUtils
 import git4idea.repo.GitRemote
 import git4idea.repo.GitRepository
 import git4idea.repo.GitRepositoryManager
@@ -16,6 +20,27 @@ class GitUtil {
 
 
     companion object {
+
+        fun rebase(
+            project: Project,
+            indicator: ProgressIndicator,
+            repository: GitRepository,
+            version: GitVersion,
+            currentBranchName: String,
+            sourceBranchName: String,
+            newBaseBranchUpstreamName: String
+        ) {
+            val gitRebaseParams = GitRebaseParams(
+                version,
+                currentBranchName,
+                sourceBranchName,
+                newBaseBranchUpstreamName,
+                false,
+                false
+            )
+
+            GitRebaseUtils.rebase(project, listOf(repository), gitRebaseParams, indicator)
+        }
 
         fun checkout(git: Git, repository: GitRepository, sourceBranchName: String, newBranchName: String): GitCommandResult {
             return git.checkout(repository, sourceBranchName, newBranchName, false, false, CommonUtil.consolePrinter)
