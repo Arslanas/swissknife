@@ -3,12 +3,42 @@ package com.arslan.swissknife.util
 import com.arslan.swissknife.enum.SettingsEnum
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
+import git4idea.commands.Git
+import git4idea.commands.GitCommandResult
+import git4idea.commands.GitLineHandlerListener
+import git4idea.repo.GitRemote
+import git4idea.repo.GitRepository
 import git4idea.repo.GitRepositoryManager
+import org.jetbrains.annotations.NotNull
+
 
 class GitUtil {
 
 
     companion object {
+
+        fun checkout(git: Git, repository: GitRepository, sourceBranchName: String, newBranchName: String): GitCommandResult {
+            return git.checkout(repository, sourceBranchName, newBranchName, false, false, CommonUtil.consolePrinter)
+        }
+
+        fun getRepo(project : Project): GitRepository? {
+            return GitRepositoryManager.getInstance(project).repositories.stream().findFirst().orElse(null)
+        }
+
+        fun getRemoteBranch(project: Project): GitRemote? {
+            val repo = getRepo(project) ?: return null
+            return repo.remotes.firstOrNull()
+        }
+
+        fun fetch(git: Git, repo: GitRepository, remote: GitRemote, vararg params: String): GitCommandResult {
+            return git.fetch(repo, remote, listOf(CommonUtil.consolePrinter), *params)
+        }
+
+
+        fun getRemoteBranch(repo : GitRepository): GitRemote? {
+            return repo.remotes.firstOrNull()
+        }
+
         fun getCurrentBranchName(project : Project): String? {
             val repository = GitRepositoryManager.getInstance(project).repositories.stream().findFirst().orElse(null)
             if (repository == null) {

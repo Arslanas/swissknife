@@ -6,6 +6,9 @@ import com.arslan.swissknife.state.CapgSettings
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.application.EDT
 import com.intellij.openapi.components.service
+import com.intellij.openapi.progress.ProgressIndicator
+import com.intellij.openapi.progress.ProgressManager
+import com.intellij.openapi.progress.Task
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
 import git4idea.commands.Git
@@ -14,6 +17,7 @@ import git4idea.commands.GitLineHandler
 import git4idea.commands.GitLineHandlerListener
 import git4idea.repo.GitRepository
 import kotlinx.coroutines.*
+
 
 class CommonUtil {
 
