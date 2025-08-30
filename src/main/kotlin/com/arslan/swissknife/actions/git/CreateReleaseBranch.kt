@@ -1,5 +1,6 @@
 package com.arslan.swissknife.actions.git
 
+import com.arslan.swissknife.mandatory
 import com.arslan.swissknife.runBackgroundTask
 import com.arslan.swissknife.util.CommonUtil
 import com.arslan.swissknife.util.GitUtil
@@ -43,22 +44,13 @@ class CreateReleaseBranch : AnAction() {
                     releaseBranches.toTypedArray(),
                     releaseBranches.get(0),
                     null
-                )
-
-                if (selectedReleaseBranch == null) {
-                    return@launch
-                }
+                ).mandatory(project, "Release branch number cannot be empty.") ?: return@launch
 
 
                 indicator.text = "Waiting for user to input Jira number"
                 val jiraNumber =
                     Messages.showInputDialog(project, "Input Jira number", "Number", Messages.getQuestionIcon())
-                if (jiraNumber == null) return@launch
-
-                if (jiraNumber.trim().isEmpty() == true) {
-                    Messages.showErrorDialog(project, "Branch number cannot be empty.", "Error");
-                    return@launch
-                }
+                        .mandatory(project, "Branch number cannot be empty.") ?: return@launch
 
                 val rawReleaseBranchName = selectedReleaseBranch.substringAfter("release/")
                 val resultBranch = "feature/TREASPROD-$jiraNumber-$rawReleaseBranchName"

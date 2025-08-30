@@ -16,6 +16,19 @@ fun GitCommandResult.requireSuccess(
     return null
 }
 
+
+fun String?.mandatory(
+    project: Project,
+    message: String
+): String? {
+    if (this.isNullOrBlank()) {
+        CommonUtil.showError(project, message)
+        return null
+    }
+    return this
+}
+
+
 fun Project.runBackgroundTask(
     title: String,
     cancellable: Boolean,
