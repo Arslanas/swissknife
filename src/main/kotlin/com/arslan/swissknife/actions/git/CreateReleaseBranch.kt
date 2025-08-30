@@ -1,5 +1,6 @@
 package com.arslan.swissknife.actions.git
 
+import com.arslan.swissknife.enum.SettingsEnum
 import com.arslan.swissknife.mandatory
 import com.arslan.swissknife.runBackgroundTask
 import com.arslan.swissknife.util.CommonUtil
@@ -53,7 +54,8 @@ class CreateReleaseBranch : AnAction() {
                         .mandatory(project, "Branch number cannot be empty.") ?: return@launch
 
                 val rawReleaseBranchName = selectedReleaseBranch.substringAfter("release/")
-                val resultBranch = "feature/TREASPROD-$jiraNumber-$rawReleaseBranchName"
+                val projectName = CommonUtil.getSetting(SettingsEnum.JIRA_PROJECT_NAME)
+                val resultBranch = "feature/$projectName-$jiraNumber-$rawReleaseBranchName"
                 val response = Messages.showYesNoDialog(
                     project,
                     "Are you sure you want to create and switch to branch:\n\n$resultBranch ?",
@@ -65,14 +67,8 @@ class CreateReleaseBranch : AnAction() {
                 if (confirmed) {
                     val checkoutResult = withContext(Dispatchers.IO)  {
                         indicator.text = "Checkout branch $resultBranch"
-                        val checkoutResult = git.checkout(
-                            repository,
-                            "origin/$selectedReleaseBranch",
-                            resultBranch,
-                            false,
-                            false,
-                            CommonUtil.consolePrinter
-                        )
+
+                        val checkoutResult = GitUtil.checkout(git, repository, "origin/$selectedReleaseBranch", resultBranch)
 
                         val unsetUpstream = GitLineHandler(project, repository.root, GitCommand.BRANCH)
                         unsetUpstream.addParameters("--unset-upstream")
