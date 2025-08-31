@@ -7,6 +7,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.components.service
+import com.intellij.openapi.editor.Caret
 import com.intellij.openapi.editor.Editor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -30,11 +31,12 @@ class ExternalTransformerGroup  : ActionGroup() {
             val settings = service<CapgSettings>()
             val filePath = settings.getTransformerFilePath(id)!!
             val command = extractCommandFromFilePath(filePath)
-            val text = getSelection(editor)
+            val caretMapWithText = getSelectionByCaret(editor)
 
             CoroutineScope(Dispatchers.IO).launch {
-                val output = runScript(filePath, command, text).replace("\r\n", "\n").removeSuffix("\n")
-                editor.caretModel.allCarets.forEach {
+                caretMapWithText.keys.forEach{
+                    val text = caretMapWithText[it] ?: return@forEach
+                    val output = runScript(filePath, command, text).replace("\r\n", "\n").removeSuffix("\n")
                     WriteCommandAction.runWriteCommandAction(project, {
                         editor.document.replaceString(it.selectionStart, it.selectionEnd, output)
                     })
@@ -42,8 +44,12 @@ class ExternalTransformerGroup  : ActionGroup() {
             }
         }
 
-        private fun getSelection(editor: Editor): String {
-            return editor.selectionModel.getSelectedText(true)!!
+        private fun getSelectionByCaret(editor: Editor): HashMap<Caret, String?> {
+            val map = HashMap<Caret, String?>()
+            editor.caretModel.allCarets.forEach {
+                map.put(it, it.selectedText)
+            }
+            return map
         }
 
         val commandMap = mapOf(Pair("js", "node"), Pair("py", "python"), Pair("java", "java"))

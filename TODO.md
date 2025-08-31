@@ -1,5 +1,6 @@
 
 ## To do
+1. RAG - select code -> list all classes -> if class is a project related one, then add it's code separately -> prepare metadata for query -> input user ask question -> write all to the clipboard 
 1. Deployment yml - function to lock release (remove snapshot from poms of the components listed in yml)  
 1. transformer for multi caret
 1. on click do create entry in changelog and update + rollback scripts
