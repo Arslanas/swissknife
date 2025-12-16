@@ -40,6 +40,7 @@ tasks {
         kotlinOptions.jvmTarget = "17"
     }
 
+    // to know version need to check the first 3 digits of number of build in Help -> About
     patchPluginXml {
         sinceBuild.set("231")
         untilBuild.set("243.*")
